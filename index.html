@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NHL Boxscores - that's it</title>
+        <style rel="stylesheet" type="text/css">
+            body {
+                font: normal 16px/20px sans-serif;
+            }
+            ul {
+                padding: 0;
+            }
+            li {
+                list-style-type: none;
+                margin: 0;
+                padding-bottom: 20px;
+            }
+            dl {
+                display: flex;
+                margin-bottom: 10px;
+            }
+            dt {
+                min-width: 200px;
+            }
+        </style>
+        <!-- make web components for the individual games, do all rendering in the components (not in the base file from the initial json) -->
+    </head>
+    <body>
+        <h1>NHL Boxscores <span>&#8230;that's it!</span></h1>
+        <div class="data-container">
+            
+        </div>
+        <script>
+            async function getGames() {
+                const gamesData = await fetch('https://statsapi.web.nhl.com/api/v1/schedule')
+                    .then((response) => {
+                        const gamesResponse = response.json().then(body => {
+                            console.log('response promise body', body);
+                            // return body;
+                            createElements(body);
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+
+            function createBoxscores(today) {
+                const boxscoreList = document.createElement('ul');
+                const containerEl = document.querySelector('.data-container');
+                const gamesIdsArray = today.games.map((game) => {
+                    const listItem = document.createElement('li');
+                    const itemContent = `
+                        <dl class="away">
+                            <dt>${game.teams.away.team.name}</dt>
+                            <dd>${game.teams.away.score}</dd>
+                        </dl>
+                        <dl class="home">
+                            <dt>${game.teams.home.team.name}</dt>
+                            <dd>${game.teams.home.score}</dd>
+                        </dl>
+                    `;
+                    listItem.innerHTML = itemContent;
+                    boxscoreList.appendChild(listItem);
+                });
+
+                containerEl.appendChild(boxscoreList);
+            }
+
+            function createCopyright(copyright) {
+                const paragraph = document.createElement('p');
+                paragraph.innerHTML = `data disclaimer: <small>${copyright}</small>`;
+                const containerEl = document.querySelector('.data-container');
+                containerEl.after(paragraph);
+            }
+
+            function createElements(gamesData) {              
+                createBoxscores(gamesData.dates[0]);
+                createCopyright(gamesData.copyright);
+            }
+
+            getGames(); 
+        </script>
+    </body>
+</html>
