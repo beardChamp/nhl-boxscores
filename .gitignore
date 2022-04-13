@@ -9,3 +9,7 @@ node_modules
 
 # Ignore files related to API keys
 .env
+
+# Ignore package-lock.json
+package-lock.json
+
