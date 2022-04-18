@@ -1,50 +1,46 @@
-import {LitElement, html, css} from 'lit-element';
+// import {LitElement, html, css} from 'lit-element';
 
-export class ScoreBlock extends LitElement {
-  static get styles() {
-    return css`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
-      }
-    `;
-  }
-
-  static get properties() {
-    return {
-      /**
-       * The name to say "Hello" to.
-       */
-      name: {type: String},
-
-      /**
-       * The number of times the button has been clicked.
-       */
-      count: {type: Number},
-    };
-  }
-
+export class ScoreBlock extends HTMLElement {
   constructor() {
     super();
-    this.name = 'World';
-    this.count = 0;
+    this.attachShadow({ mode: 'open' });
+    this.games = {};
+    this.copyright = '';
+    console.log('score-block: constructor');
+  }
+
+  async connectedCallback() {
+    console.log('score-block: connectedCallback');
+    const response = await fetch('https://statsapi.web.nhl.com/api/v1/schedule');
+    const json = await response.json();
+    this.games = await json.dates[0];
+    this.copyright = await json.copyright;
+    this.render();
+  }
+
+  attributeChangedCallback(attrName, oldVal, newVal) {
+    this.render();
   }
 
   render() {
-    return html`
-      <h1>Hello, ${this.name}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
-    `;
-  }
+    if (this.loading) {
+      this.shadowRoot.innerHTML = `Loading...`;
+    } else {
+      console.log('render: this.games = ', this.games);
+      this.shadowRoot.innerHTML = `
+      <ul>
+        ${this.games.games.map((game) => {
+          return `
+            <li>
+              
+            </li>
+          `;
+        }).join("")}
+      </ul>
 
-  _onClick() {
-    this.count++;
+      <h2>Games</h2><p>Disclaimer: ${this.copyright}</p>`
+    }
   }
 }
 
-window.customElements.define('score-block', ScoreBlock);
+window.customElements.define('score-block', ScoreBlock)
