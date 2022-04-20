@@ -26,9 +26,19 @@ export class ScoreBase extends HTMLElement {
     } else {
       console.log('render: this.games = ', this.games);
       this.shadowRoot.innerHTML = `
+      <style>
+        ul {
+                padding: 0;
+        }
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding-bottom: 20px;
+        }
+      </style>
+      
       <ul>
         ${this.games.games.map((game) => {
-          console.log('game.link', game.link, typeof game.link);
           return `
             <li>
               <game-block feed="${game.link}"></game-block>
