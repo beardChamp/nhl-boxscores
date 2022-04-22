@@ -28,7 +28,7 @@ export class ScoreBase extends HTMLElement {
       this.shadowRoot.innerHTML = `
       <style>
         ul {
-                padding: 0;
+            padding: 0;
         }
         li {
             list-style-type: none;
@@ -39,9 +39,11 @@ export class ScoreBase extends HTMLElement {
       
       <ul>
         ${this.games.games.map((game) => {
+          const awayRecord = game.teams.away.leagueRecord;
+          const homeRecord = game.teams.home.leagueRecord
           return `
             <li>
-              <game-block feed="${game.link}"></game-block>
+              <game-block feed="${game.link}" away-record="(${awayRecord.wins}-${awayRecord.losses}-${awayRecord.ot})" home-record="(${homeRecord.wins}-${homeRecord.losses}-${homeRecord.ot})"></game-block>
             </li>
           `;
         }).join("")}

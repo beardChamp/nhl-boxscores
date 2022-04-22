@@ -3,6 +3,8 @@ export class GameBlock extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.feed = '';
+    this.awayRecord = '';
+    this.homeRecord = '';
   }
 
   static get observedAttributes() {
@@ -11,6 +13,8 @@ export class GameBlock extends HTMLElement {
 
   async connectedCallback() {
     const feed = this.getAttribute("feed");
+    this.awayRecord = this.getAttribute("away-record");
+    this.homeRecord = this.getAttribute("home-record")
     const response = await fetch(`https://statsapi.web.nhl.com${feed}`);
     const json = await response.json();
     this.data = await json;
@@ -27,6 +31,7 @@ export class GameBlock extends HTMLElement {
     } else {
         const away = this.data.liveData.boxscore.teams.away;
         const home = this.data.liveData.boxscore.teams.home;
+        // const periods = this.data.liveData.team.linescore.periods;
         const gameData = this.data.liveData.linescore;
         this.shadowRoot.innerHTML = `
           <style>
@@ -53,11 +58,23 @@ export class GameBlock extends HTMLElement {
           <ul class="boxscore">
             <li class="team-data">
               <dl class="away">
-                  <dt>${away.team.triCode}</dt>
+                  <dt>
+                    ${away.team.triCode} 
+                    <span>${this.awayRecord}</span>
+                  </dt>
+                  <dd>
+
+                  </dd>
                   <dd>${away.teamStats.teamSkaterStats.goals}</dd>
               </dl>
               <dl class="home">
-                  <dt>${home.team.triCode}</dt>
+                  <dt>
+                    ${home.team.triCode}
+                    <span>${this.homeRecord}</span>
+                  </dt>
+                  <dd>
+                    
+                  </dd>
                   <dd>${home.teamStats.teamSkaterStats.goals}</dd>
               </dl>
             </li>
