@@ -36,22 +36,34 @@ export class GameBlock extends HTMLElement {
         this.shadowRoot.innerHTML = `
           <style>
             ul {
+                margin: 0;
                 padding: 0;
             }
             li {
                 list-style-type: none;
                 margin: 0;
-                padding-bottom: 20px;
             }
             dl {
                 display: flex;
                 margin-bottom: 10px;
+                padding-bottom: 5px;   
+            }
+            .team-data dl {
+              border-bottom: 1px solid #ddd;
             }
             dt {
-                min-width: 100px;
+                flex: 1 1 auto;
+                min-width: 125px;
+            }
+            dt span {
+                font-size: 11px;
             }
             dd {
+                flex: 1 1 auto;
+                margin: 0;
+                min-width: 50px;
                 padding: 0;
+                text-align: right;
             }
           </style>
           

@@ -28,12 +28,15 @@ export class ScoreBase extends HTMLElement {
       this.shadowRoot.innerHTML = `
       <style>
         ul {
+            display: flex;
+            flex-wrap: wrap;
             padding: 0;
         }
         li {
+            flex: 0 0 auto;
             list-style-type: none;
-            margin: 0;
-            padding-bottom: 20px;
+            margin: 20px 10px;
+            padding: 10px;
         }
       </style>
       
