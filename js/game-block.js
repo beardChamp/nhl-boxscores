@@ -31,8 +31,10 @@ export class GameBlock extends HTMLElement {
     } else {
         const away = this.data.liveData.boxscore.teams.away;
         const home = this.data.liveData.boxscore.teams.home;
-        // const periods = this.data.liveData.team.linescore.periods;
-        const gameData = this.data.liveData.linescore;
+        const linescoreData = this.data.liveData.linescore;
+        // going to need to check length and loop through periods, need home and away seperately
+        const periodsData = linescoreData.periods;
+        const gameData = this.data.gameData;
         this.shadowRoot.innerHTML = `
           <style>
             ul {
@@ -75,7 +77,7 @@ export class GameBlock extends HTMLElement {
                     <span>${this.awayRecord}</span>
                   </dt>
                   <dd>
-
+                    
                   </dd>
                   <dd>${away.teamStats.teamSkaterStats.goals}</dd>
               </dl>
@@ -91,9 +93,9 @@ export class GameBlock extends HTMLElement {
               </dl>
             </li>
             <li class="game-data">
-              <dl>
-                <dt>${gameData.currentPeriodOrdinal}</dt>
-                <dd>${gameData.currentPeriodTimeRemaining}</dd>
+              <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
+                <dt>${linescoreData.currentPeriodOrdinal}</dt>
+                <dd>${linescoreData.currentPeriodTimeRemaining}</dd>
               </dl>
             </li>
           </ul>
