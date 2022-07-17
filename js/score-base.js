@@ -57,7 +57,7 @@ export class ScoreBase extends HTMLElement {
       <p>Disclaimer: <small>${this.copyright}</small></p>`
     } else {
       this.shadowRoot.innerHTML = `
-        <p>There a no games available for today.</p>
+        <p>There are no games available for today.</p>
         <p>Disclaimer: <small>${this.copyright}</small></p>
       `
     }
