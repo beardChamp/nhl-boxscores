@@ -5,6 +5,7 @@ export class GameBlock extends HTMLElement {
     this.feed = '';
     this.awayRecord = '';
     this.homeRecord = '';
+    this.data = {};
   }
 
   static get observedAttributes() {
@@ -29,6 +30,8 @@ export class GameBlock extends HTMLElement {
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
+        // need to handle zero or undefined data states (mostly to supress console errors)
+        // console.log('data', this.data.liveData);
         const away = this.data.liveData.boxscore.teams.away;
         const home = this.data.liveData.boxscore.teams.home;
         const linescoreData = this.data.liveData.linescore;
