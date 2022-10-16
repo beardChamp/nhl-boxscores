@@ -1,3 +1,5 @@
+import './period-breakdown.js';
+
 export class GameBlock extends HTMLElement {
   constructor() {
     super();
@@ -15,7 +17,7 @@ export class GameBlock extends HTMLElement {
   async connectedCallback() {
     const feed = this.getAttribute("feed");
     this.awayRecord = this.getAttribute("away-record");
-    this.homeRecord = this.getAttribute("home-record")
+    this.homeRecord = this.getAttribute("home-record");
     const response = await fetch(`https://statsapi.web.nhl.com${feed}`);
     const json = await response.json();
     this.data = await json;
@@ -31,13 +33,16 @@ export class GameBlock extends HTMLElement {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
         // need to handle zero or undefined data states (mostly to supress console errors)
-        // console.log('data', this.data.liveData);
         const away = this.data.liveData.boxscore.teams.away;
         const home = this.data.liveData.boxscore.teams.home;
         const linescoreData = this.data.liveData.linescore;
         // going to need to check length and loop through periods, need home and away seperately
-        const periodsData = linescoreData.periods;
+        const periodsData = JSON.stringify(linescoreData.periods);
         const gameData = this.data.gameData;
+        const dateString = dayjs(gameData.datetime.dateTime, 'America/New_York').format('h:mm A');
+        const dateObj = dayjs(gameData.datetime.dateTime);
+        const now = new dayjs();
+
         this.shadowRoot.innerHTML = `
           <style>
             ul {
@@ -80,7 +85,7 @@ export class GameBlock extends HTMLElement {
                     <span>${this.awayRecord}</span>
                   </dt>
                   <dd>
-                    
+                    <period-breakdown periods=${periodsData} team="away"></period-breakdown>
                   </dd>
                   <dd>${away.teamStats.teamSkaterStats.goals}</dd>
               </dl>
@@ -90,15 +95,15 @@ export class GameBlock extends HTMLElement {
                     <span>${this.homeRecord}</span>
                   </dt>
                   <dd>
-                    
+                  <period-breakdown periods=${periodsData} team="home"></period-breakdown>
                   </dd>
                   <dd>${home.teamStats.teamSkaterStats.goals}</dd>
               </dl>
             </li>
             <li class="game-data">
               <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
-                <dt>${linescoreData.currentPeriodOrdinal}</dt>
-                <dd>${linescoreData.currentPeriodTimeRemaining}</dd>
+                <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
+                <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
               </dl>
             </li>
           </ul>
@@ -107,4 +112,4 @@ export class GameBlock extends HTMLElement {
   }
 }
 
-window.customElements.define('game-block', GameBlock)
+window.customElements.define('game-block', GameBlock);

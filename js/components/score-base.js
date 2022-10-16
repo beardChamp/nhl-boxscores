@@ -14,11 +14,12 @@ export class ScoreBase extends HTMLElement {
     // console.log('resposne = ', response);
     let json = await response.json();
 
-    if (json.totalGames === 0) {
-      const altResponse = await fetch('../response-examples/api-v1-schedule.json');
+    // if (json.totalGames === 0) {
+      // ALT RESPONSE for DEBBUGGING/BUILDING
+      // const altResponse = await fetch('../response-examples/api-v1-schedule.json');
       // console.log('altResponse', altResponse);
-      json = await altResponse.json();
-    }
+      // json = await altResponse.json();
+    // }
     // console.log('json', json);
     this.copyright = await json.copyright;
     this.games = await json.dates[0];
@@ -31,7 +32,6 @@ export class ScoreBase extends HTMLElement {
   }
 
   renderData() {
-    // console.log('render: this.games = ', this.games);
     this.shadowRoot.innerHTML = `
     <style>
       ul {
@@ -63,6 +63,7 @@ export class ScoreBase extends HTMLElement {
   }
 
   renderEmpty() {
+    // TODO: should this be rendered as a game-block, or similarly, to maintain consistency?
     this.shadowRoot.innerHTML = `
         <p>There are no games available for today.</p>
         <p>Disclaimer: <small>${this.copyright}</small></p>
@@ -80,4 +81,4 @@ export class ScoreBase extends HTMLElement {
   }
 }
 
-window.customElements.define('score-base', ScoreBase)
+window.customElements.define('score-base', ScoreBase);
