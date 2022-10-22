@@ -24,6 +24,7 @@ export class PeriodBreakdown extends HTMLElement {
         const periodsListing = this.periods.map((period) => {
             return period[this.team]
         });
+        // console.log('periodsListing', periodsListing);
         this.shadowRoot.innerHTML = `
             <style>
                 ul, li { 
@@ -32,12 +33,15 @@ export class PeriodBreakdown extends HTMLElement {
                     padding: 0;
                 }
                 ul {
+                    align-content: flex-start;
                     display: flex;
+                    gap: 0.25rem;
+                    justify-content: flex-start;
+                    text-align: left;
                 }
                 li {
                     color: #666;
-                    font-size: 0.9rem;
-                    padding: 0 7px;
+                    flex: 1 0 33%;
                 }
             </style>
             <ul class="periods">

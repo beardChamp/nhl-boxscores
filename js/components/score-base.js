@@ -40,10 +40,13 @@ export class ScoreBase extends HTMLElement {
           padding: 0;
       }
       li {
-          flex: 0 0 auto;
+          flex: 1 1 auto;
           list-style-type: none;
-          margin: 20px 10px;
-          padding: 10px;
+          margin: 1rem 1.5rem 0.5rem;
+          padding: 0 1rem;
+      }
+      footer {
+        padding: 0 2.5rem;
       }
     </style>
     
@@ -53,20 +56,24 @@ export class ScoreBase extends HTMLElement {
         const homeRecord = game.teams.home.leagueRecord
         return `
           <li>
-            <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : ''}-${awayRecord.losses !== undefined ? awayRecord.losses : ''}${awayRecord.ot ? - awayRecord.ot : ''})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : ''}-${homeRecord.losses !== undefined ? homeRecord.losses : ''}${homeRecord.ot !== undefined ? - homeRecord.ot : ''})"></game-block>
+            <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : '0'}-${awayRecord.losses !== undefined ? awayRecord.losses : '0'}-${awayRecord.ot ? awayRecord.ot : '0'})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : '0'}-${homeRecord.losses !== undefined ? homeRecord.losses : '0'}-${homeRecord.ot !== undefined ? homeRecord.ot : '0'})"></game-block>
           </li>
         `;
       }).join("")}
     </ul>
 
-    <p>Disclaimer: <small>${this.copyright}</small></p>`
+    <footer>
+      <p><small>Disclaimer: ${this.copyright}</small></p>
+    </footer>`
   }
 
   renderEmpty() {
     // TODO: should this be rendered as a game-block, or similarly, to maintain consistency?
     this.shadowRoot.innerHTML = `
-        <p>There are no games available for today.</p>
-        <p>Disclaimer: <small>${this.copyright}</small></p>
+        <footer>
+            <p>There are no games available for today.</p>
+            <p><small>Disclaimer: ${this.copyright}</small></p>
+        </footer>
       `
   }
 

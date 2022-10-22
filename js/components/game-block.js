@@ -59,14 +59,19 @@ export class GameBlock extends HTMLElement {
                 padding-bottom: 5px;   
             }
             .team-data dl {
-              border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
             }
             dt {
                 flex: 1 1 auto;
                 min-width: 125px;
             }
-            dt span {
-                font-size: 11px;
+            dt .team-name {
+                font-family: 'FigtreeMedium',sans-serif;
+                font-size: 1.25rem;
+                padding-right: 0.5rem;
+            }
+            dt .record {
+                font-size: .75rem;
             }
             dd {
                 flex: 1 1 auto;
@@ -75,14 +80,18 @@ export class GameBlock extends HTMLElement {
                 padding: 0;
                 text-align: right;
             }
+            .away dd:last-of-type,
+            .home dd:last-of-type {
+                font-size: 1.5rem;
+            }
           </style>
           
           <ul class="boxscore">
             <li class="team-data">
               <dl class="away">
                   <dt>
-                    ${away.team.triCode} 
-                    <span>${this.awayRecord}</span>
+                    <span class="team-name">${away.team.triCode}</span>
+                    <span class="record">${this.awayRecord}</span>
                   </dt>
                   <dd>
                     <period-breakdown periods=${periodsData} team="away"></period-breakdown>
@@ -91,8 +100,8 @@ export class GameBlock extends HTMLElement {
               </dl>
               <dl class="home">
                   <dt>
-                    ${home.team.triCode}
-                    <span>${this.homeRecord}</span>
+                  <span class="team-name">${home.team.triCode}</span>
+                    <span class="record">${this.homeRecord}</span>
                   </dt>
                   <dd>
                   <period-breakdown periods=${periodsData} team="home"></period-breakdown>

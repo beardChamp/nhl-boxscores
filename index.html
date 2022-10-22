@@ -4,10 +4,33 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NHL Boxscores - that's it</title>
+        <title>NHL Boxscores</title>
         <style rel="stylesheet" type="text/css">
+            @font-face {
+                font-family: 'Figtree';
+                src: url('type/Figtree-Regular.woff2') format('woff2');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'FigtreeLight';
+                src: url('type/Figtree-Light.woff2') format('woff2');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'FigtreeMedium';
+                src: url('type/Figtree-Medium.woff2') format('woff2');
+                font-weight: normal;
+                font-style: normal;
+            }
             body {
-                font: normal 16px/20px sans-serif;
+                font: normal 1rem/1.5rem 'Figtree', sans-serif;
+            }
+            h1 {
+                font-family: 'FigtreeLight', sans-serif;
+                font-weight: normal;
+                padding: 0 2.25rem;
             }
             ul {
                 padding: 0;
@@ -15,14 +38,14 @@
             li {
                 list-style-type: none;
                 margin: 0;
-                padding: 10px 20px;
+                padding: 1rem 1.5rem;
             }
             dl {
                 display: flex;
-                margin-bottom: 10px;
+                margin-bottom: 0.5rem;
             }
             dt {
-                min-width: 200px;
+                min-width: 12.5rem;
             }
         </style>
         <script src="js/dayjs.min.js"></script>
@@ -40,7 +63,7 @@
     </head>
     <body>
         <header>
-            <h1>NHL Boxscores <span>&#8230;that's it!</span></h1>
+            <h1>NHL Boxscores</h1>
         </header>
         <main class="data-container">
             <score-base></score-base>
