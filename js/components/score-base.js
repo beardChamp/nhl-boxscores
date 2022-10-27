@@ -40,7 +40,7 @@ export class ScoreBase extends HTMLElement {
           padding: 0;
       }
       li {
-          flex: 1 1 auto;
+          flex: 1 1 25%;
           list-style-type: none;
           margin: 1rem 1.5rem 0.5rem;
           padding: 0 1rem;
