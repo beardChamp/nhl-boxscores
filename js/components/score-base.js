@@ -7,28 +7,53 @@ export class ScoreBase extends HTMLElement {
     this.totalGames = 0;
     this.games = {};
     this.copyright = '';
+    this.baseUrl = 'https://statsapi.web.nhl.com/api/v1/schedule';
+    this.today = '';
+    this.yesterday = '';
+    this.tomorrow = '';
   }
 
   async connectedCallback() {
-    const response = await fetch('https://statsapi.web.nhl.com/api/v1/schedule');
-    // console.log('resposne = ', response);
-    let json = await response.json();
+    this.updateScheduleData(new dayjs());
 
-    // if (json.totalGames === 0) {
-      // ALT RESPONSE for DEBBUGGING/BUILDING
-      // const altResponse = await fetch('../response-examples/api-v1-schedule.json');
-      // console.log('altResponse', altResponse);
-      // json = await altResponse.json();
-    // }
-    // console.log('json', json);
+    this.shadowRoot.addEventListener('click', (event) => {
+        this.dateResponse(event);
+    });
+    await this.render();
+  }
+
+  updateDateData(dateObject) {
+    this.todayDisplay = dateObject.format('YYYY-MM-DD');
+    this.today = dateObject;
+    this.yesterday = dateObject.subtract(1, 'day').format('YYYY-MM-DD');
+    this.tomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
+  }
+
+  async updateGameData(dateObject) {
+    const response = await fetch(`${this.baseUrl}?date=${dateObject.format('YYYY-MM-DD')}`);
+    const json = await response.json();
     this.copyright = await json.copyright;
     this.games = await json.dates[0];
     this.totalGames = await json.totalGames;
     this.render();
   }
 
+  updateScheduleData(dateObject) {
+    this.updateDateData(dateObject);
+    this.updateGameData(dateObject);
+  }
+
   attributeChangedCallback(attrName, oldVal, newVal) {
     this.render();
+  }
+
+  async dateResponse(event) {
+    event.preventDefault();
+    if (event.target.nodeName === 'A') {
+        const dateURL = event.composedPath()[0].getAttribute('href');
+        const dateFromUrl =  dateURL.split('/').at(-1).split('=').at(-1);
+        this.updateScheduleData(dayjs(dateFromUrl));
+    }
   }
 
   renderData() {
@@ -45,11 +70,42 @@ export class ScoreBase extends HTMLElement {
           margin: 1rem 1.5rem 0.5rem;
           padding: 0 1rem;
       }
+      .date-nav a {
+        color: black;
+        text-decoration: none;
+      }
+      .date_nav a:hover {
+        text-decoration: underline;
+      }
+      .previous {
+        text-align: right;
+      }
+      .current {
+        text-align: center;
+      }
+      .today {
+        font-family: 'FigtreeBold',sans-serif;
+      }
+      .next {
+        text-align: left;
+      }
       footer {
         padding: 0 2.5rem;
       }
     </style>
-    
+    <nav class="date-nav">
+      <ul>
+        <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+            <a href="${this.baseUrl}?date=${this.yesterday}">&laquo; ${this.yesterday}</a>
+        </li>
+        <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+            <a href="${this.baseUrl}?date=${this.todayDisplay}">Current: ${this.todayDisplay}</a>
+        </li>
+        <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+            <a href="${this.baseUrl}?date=${this.tomorrow}">${this.tomorrow} &raquo;</a>
+        </li>
+      </ul>
+    </nav>
     <ul>
       ${this.games.games.map((game) => {
         const awayRecord = game.teams.away.leagueRecord;
@@ -64,11 +120,10 @@ export class ScoreBase extends HTMLElement {
 
     <footer>
       <p><small>Disclaimer: ${this.copyright}</small></p>
-    </footer>`
+    </footer>`;
   }
 
   renderEmpty() {
-    // TODO: should this be rendered as a game-block, or similarly, to maintain consistency?
     this.shadowRoot.innerHTML = `
         <footer>
             <p>There are no games available for today.</p>
@@ -77,7 +132,7 @@ export class ScoreBase extends HTMLElement {
       `
   }
 
-  render() {
+  async render() {
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else if (this.totalGames > 0) {
