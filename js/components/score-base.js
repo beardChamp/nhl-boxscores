@@ -4,22 +4,27 @@ export class ScoreBase extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.totalGames = 0;
-    this.games = {};
-    this.copyright = '';
     this.baseUrl = 'https://statsapi.web.nhl.com/api/v1/schedule';
+    this.copyright = '';
+    this.games = {};
+    this.season = '';
+    this.seasonMax = '';
+    this.seasonMin = '';
     this.today = '';
-    this.yesterday = '';
     this.tomorrow = '';
+    this.totalGames = 0;
+    this.yesterday = '';
   }
 
   async connectedCallback() {
+
+
     this.updateScheduleData(new dayjs());
 
     this.shadowRoot.addEventListener('click', (event) => {
         this.dateResponse(event);
     });
-    await this.render();
+    // await this.render();
   }
 
   updateDateData(dateObject) {
@@ -29,12 +34,24 @@ export class ScoreBase extends HTMLElement {
     this.tomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
   }
 
+  async setScheduleBounds(arrayOfGames) {
+    this.season = arrayOfGames.games[0].season;
+    const seasonResponse = await fetch(`${this.baseUrl}?season=${this.season}`);
+    const seasonJson = await seasonResponse.json();
+    
+    this.seasonMin = seasonJson.dates[0].date;
+    this.seasonMax = seasonJson.dates.at(-1).date;
+    console.log('seasonJson', this.seasonMin, this.seasonMax);
+  }
+
   async updateGameData(dateObject) {
     const response = await fetch(`${this.baseUrl}?date=${dateObject.format('YYYY-MM-DD')}`);
     const json = await response.json();
     this.copyright = await json.copyright;
     this.games = await json.dates[0];
     this.totalGames = await json.totalGames;
+
+    this.setScheduleBounds(this.games);
     this.render();
   }
 
@@ -69,6 +86,11 @@ export class ScoreBase extends HTMLElement {
           list-style-type: none;
           margin: 1rem 1.5rem 0.5rem;
           padding: 0 1rem;
+      }
+
+      .date-nav li {
+        margin: 0;
+        padding: 0;
       }
       .date-nav a {
         color: black;
