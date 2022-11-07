@@ -14,34 +14,62 @@ export class ScoreBase extends HTMLElement {
     this.tomorrow = '';
     this.totalGames = 0;
     this.yesterday = '';
+    this.seasons = [
+        20222023,
+        20212022,
+        20202021,
+        20192020,
+        20182019
+    ];
+    this.site = `<style>
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+    }
+    li {
+        flex: 1 1 25%;
+        list-style-type: none;
+        margin: 1rem 1.5rem 0.5rem;
+        padding: 0 1rem;
+    }
+
+    .date-nav li {
+      margin: 0;
+      padding: 0;
+    }
+    .date-nav a {
+      color: black;
+      text-decoration: none;
+    }
+    .date_nav a:hover {
+      text-decoration: underline;
+    }
+    .previous {
+      text-align: right;
+    }
+    .current {
+      text-align: center;
+    }
+    .today {
+      font-family: 'FigtreeBold',sans-serif;
+    }
+    .next {
+      text-align: left;
+    }
+    footer {
+      padding: 0 2.5rem;
+    }
+  </style>`
   }
 
   async connectedCallback() {
-
-
+    await this.setScheduleBounds(this.seasons[0]);
     this.updateScheduleData(new dayjs());
 
     this.shadowRoot.addEventListener('click', (event) => {
         this.dateResponse(event);
     });
-    // await this.render();
-  }
-
-  updateDateData(dateObject) {
-    this.todayDisplay = dateObject.format('YYYY-MM-DD');
-    this.today = dateObject;
-    this.yesterday = dateObject.subtract(1, 'day').format('YYYY-MM-DD');
-    this.tomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
-  }
-
-  async setScheduleBounds(arrayOfGames) {
-    this.season = arrayOfGames.games[0].season;
-    const seasonResponse = await fetch(`${this.baseUrl}?season=${this.season}`);
-    const seasonJson = await seasonResponse.json();
-    
-    this.seasonMin = seasonJson.dates[0].date;
-    this.seasonMax = seasonJson.dates.at(-1).date;
-    console.log('seasonJson', this.seasonMin, this.seasonMax);
   }
 
   async updateGameData(dateObject) {
@@ -50,14 +78,31 @@ export class ScoreBase extends HTMLElement {
     this.copyright = await json.copyright;
     this.games = await json.dates[0];
     this.totalGames = await json.totalGames;
-
-    this.setScheduleBounds(this.games);
-    this.render();
   }
 
-  updateScheduleData(dateObject) {
-    this.updateDateData(dateObject);
-    this.updateGameData(dateObject);
+  async updateDateData(dateObject) {
+    this.todayDisplay = dateObject.format('YYYY-MM-DD');
+    const updatedYesterday = dateObject.subtract(1, 'day').format('YYYY-MM-DD');
+    const updatedTomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
+    if(dateObject.isBetween(this.seasonMin, this.seasonMax)) {
+        this.today = dateObject;
+        this.yesterday = updatedYesterday;
+        this.tomorrow = updatedTomorrow;
+    }
+  }
+
+  async setScheduleBounds(seasonString) {
+    const seasonResponse = await fetch(`${this.baseUrl}?season=${seasonString}`);
+    const seasonJson = await seasonResponse.json();
+    this.season = seasonString;
+    this.seasonMin = seasonJson.dates[0].date;
+    this.seasonMax = seasonJson.dates.at(-1).date;
+  }
+
+  async updateScheduleData(dateObject) {
+    await this.updateGameData(dateObject);
+    await this.updateDateData(dateObject);
+    this.render();
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
@@ -129,38 +174,31 @@ export class ScoreBase extends HTMLElement {
       </ul>
     </nav>
     <ul>
-      ${this.games.games.map((game) => {
-        const awayRecord = game.teams.away.leagueRecord;
-        const homeRecord = game.teams.home.leagueRecord
-        return `
-          <li>
-            <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : '0'}-${awayRecord.losses !== undefined ? awayRecord.losses : '0'}-${awayRecord.ot ? awayRecord.ot : '0'})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : '0'}-${homeRecord.losses !== undefined ? homeRecord.losses : '0'}-${homeRecord.ot !== undefined ? homeRecord.ot : '0'})"></game-block>
-          </li>
-        `;
-      }).join("")}
+      ${ this.totalGames > 0
+            ? this.games.games.map((game) => {
+                const awayRecord = game.teams.away.leagueRecord;
+                const homeRecord = game.teams.home.leagueRecord
+                return `
+                <li>
+                    <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : '0'}-${awayRecord.losses !== undefined ? awayRecord.losses : '0'}-${awayRecord.ot ? awayRecord.ot : '0'})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : '0'}-${homeRecord.losses !== undefined ? homeRecord.losses : '0'}-${homeRecord.ot !== undefined ? homeRecord.ot : '0'})"></game-block>
+                </li>
+                `;
+            }).join("")
+            : `<li>
+                <p>There are no games available for today.</p>
+            </li>`
+        }
     </ul>
-
     <footer>
       <p><small>Disclaimer: ${this.copyright}</small></p>
     </footer>`;
   }
 
-  renderEmpty() {
-    this.shadowRoot.innerHTML = `
-        <footer>
-            <p>There are no games available for today.</p>
-            <p><small>Disclaimer: ${this.copyright}</small></p>
-        </footer>
-      `
-  }
-
   async render() {
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
-    } else if (this.totalGames > 0) {
-      this.renderData();
     } else {
-      this.renderEmpty();
+      this.renderData();
     }
   }
 }

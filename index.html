@@ -59,9 +59,11 @@
         <script src="js/dayjs.min.js"></script>
         <script src="js/utc.js"></script>
         <script src="js/timezone.js"></script>
+        <script src="js/isbetween.js"></script>
         <script>
             dayjs.extend(window.dayjs_plugin_utc)
             dayjs.extend(window.dayjs_plugin_timezone)
+            dayjs.extend(window.dayjs_plugin_isBetween)
         </script>
         <script type="module">
             import './js/components/score-base.js';

@@ -33,90 +33,92 @@ export class GameBlock extends HTMLElement {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
         // need to handle zero or undefined data states (mostly to supress console errors)
-        const away = this.data.liveData.boxscore.teams.away;
-        const home = this.data.liveData.boxscore.teams.home;
-        const linescoreData = this.data.liveData.linescore;
-        // going to need to check length and loop through periods, need home and away seperately
-        const periodsData = JSON.stringify(linescoreData.periods);
-        const gameData = this.data.gameData;
-        const dateString = dayjs(gameData.datetime.dateTime, 'America/New_York').format('h:mm A');
-        const dateObj = dayjs(gameData.datetime.dateTime);
-        const now = new dayjs();
+        if (this.data.liveData) {
+            const away = this.data.liveData.boxscore.teams.away;
+            const home = this.data.liveData.boxscore.teams.home;
+            const linescoreData = this.data.liveData.linescore;
+            // going to need to check length and loop through periods, need home and away seperately
+            const periodsData = JSON.stringify(linescoreData.periods);
+            const gameData = this.data.gameData;
+            const dateString = dayjs(gameData.datetime.dateTime, 'America/New_York').format('h:mm A');
+            const dateObj = dayjs(gameData.datetime.dateTime);
+            const now = new dayjs();
 
-        this.shadowRoot.innerHTML = `
-          <style>
-            ul {
-                margin: 0;
-                padding: 0;
-            }
-            li {
-                list-style-type: none;
-                margin: 0;
-            }
-            dl {
-                display: flex;
-                margin-bottom: 10px;
-                padding-bottom: 5px;   
-            }
-            .team-data dl {
-                border-bottom: 1px solid #ddd;
-            }
-            dt {
-                flex: 1 1 auto;
-                min-width: 125px;
-            }
-            dt .team-name {
-                font-family: 'FigtreeMedium',sans-serif;
-                font-size: 1.25rem;
-                padding-right: 0.5rem;
-            }
-            dt .record {
-                font-size: .75rem;
-            }
-            dd {
-                flex: 1 1 auto;
-                margin: 0;
-                min-width: 50px;
-                padding: 0;
-                text-align: right;
-            }
-            .away dd:last-of-type,
-            .home dd:last-of-type {
-                font-size: 1.5rem;
-            }
-          </style>
-          
-          <ul class="boxscore">
-            <li class="team-data">
-              <dl class="away">
-                  <dt>
-                    <span class="team-name">${away.team.triCode}</span>
-                    <span class="record">${this.awayRecord}</span>
-                  </dt>
-                  <dd>
-                    <period-breakdown periods=${periodsData} team="away"></period-breakdown>
-                  </dd>
-                  <dd>${away.teamStats.teamSkaterStats.goals}</dd>
-              </dl>
-              <dl class="home">
-                  <dt>
-                  <span class="team-name">${home.team.triCode}</span>
-                    <span class="record">${this.homeRecord}</span>
-                  </dt>
-                  <dd>
-                  <period-breakdown periods=${periodsData} team="home"></period-breakdown>
-                  </dd>
-                  <dd>${home.teamStats.teamSkaterStats.goals}</dd>
-              </dl>
-            </li>
-            <li class="game-data">
-              <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
-                <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
-                <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
-              </dl>
-            </li>
-          </ul>
-        `
+            this.shadowRoot.innerHTML = `
+            <style>
+                ul {
+                    margin: 0;
+                    padding: 0;
+                }
+                li {
+                    list-style-type: none;
+                    margin: 0;
+                }
+                dl {
+                    display: flex;
+                    margin-bottom: 10px;
+                    padding-bottom: 5px;   
+                }
+                .team-data dl {
+                    border-bottom: 1px solid #ddd;
+                }
+                dt {
+                    flex: 1 1 auto;
+                    min-width: 125px;
+                }
+                dt .team-name {
+                    font-family: 'FigtreeMedium',sans-serif;
+                    font-size: 1.25rem;
+                    padding-right: 0.5rem;
+                }
+                dt .record {
+                    font-size: .75rem;
+                }
+                dd {
+                    flex: 1 1 auto;
+                    margin: 0;
+                    min-width: 50px;
+                    padding: 0;
+                    text-align: right;
+                }
+                .away dd:last-of-type,
+                .home dd:last-of-type {
+                    font-size: 1.5rem;
+                }
+            </style>
+            
+            <ul class="boxscore">
+                <li class="team-data">
+                <dl class="away">
+                    <dt>
+                        <span class="team-name">${away.team.triCode}</span>
+                        <span class="record">${this.awayRecord}</span>
+                    </dt>
+                    <dd>
+                        <period-breakdown periods=${periodsData} team="away"></period-breakdown>
+                    </dd>
+                    <dd>${away.teamStats.teamSkaterStats.goals}</dd>
+                </dl>
+                <dl class="home">
+                    <dt>
+                    <span class="team-name">${home.team.triCode}</span>
+                        <span class="record">${this.homeRecord}</span>
+                    </dt>
+                    <dd>
+                    <period-breakdown periods=${periodsData} team="home"></period-breakdown>
+                    </dd>
+                    <dd>${home.teamStats.teamSkaterStats.goals}</dd>
+                </dl>
+                </li>
+                <li class="game-data">
+                <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
+                    <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
+                    <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
+                </dl>
+                </li>
+            </ul>
+            `
+        }
     }
   }
 }
