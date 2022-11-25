@@ -183,7 +183,7 @@ export class ScoreBase extends HTMLElement {
                     <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : '0'}-${awayRecord.losses !== undefined ? awayRecord.losses : '0'}-${awayRecord.ot ? awayRecord.ot : '0'})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : '0'}-${homeRecord.losses !== undefined ? homeRecord.losses : '0'}-${homeRecord.ot !== undefined ? homeRecord.ot : '0'})"></game-block>
                 </li>
                 `;
-            }).join("")
+            }).join('')
             : `<li>
                 <p>There are no games available for today.</p>
             </li>`

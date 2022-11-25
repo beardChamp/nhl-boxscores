@@ -15,16 +15,20 @@ export class GameBlock extends HTMLElement {
   }
 
   async connectedCallback() {
-    const feed = this.getAttribute("feed");
     this.awayRecord = this.getAttribute("away-record");
     this.homeRecord = this.getAttribute("home-record");
-    const response = await fetch(`https://statsapi.web.nhl.com${feed}`);
-    const json = await response.json();
-    this.data = await json;
-    this.render();
+    this.fetchGameData();
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
+    this.render();
+  }
+
+  async fetchGameData() {
+    const feed = this.getAttribute("feed");
+    const response = await fetch(`https://statsapi.web.nhl.com${feed}`);
+    const json = await response.json();
+    this.data = await json;
     this.render();
   }
 
@@ -40,6 +44,8 @@ export class GameBlock extends HTMLElement {
             // going to need to check length and loop through periods, need home and away seperately
             const periodsData = JSON.stringify(linescoreData.periods);
             const gameData = this.data.gameData;
+            const scoringPlays = Object.values(this.data.liveData.plays.scoringPlays);
+            const allPlays = this.data.liveData.plays.allPlays;
             const dateString = dayjs(gameData.datetime.dateTime, 'America/New_York').format('h:mm A');
             const dateObj = dayjs(gameData.datetime.dateTime);
             const now = new dayjs();
@@ -67,12 +73,16 @@ export class GameBlock extends HTMLElement {
                     min-width: 125px;
                 }
                 dt .team-name {
+                    display: inline-block;
                     font-family: 'FigtreeMedium',sans-serif;
                     font-size: 1.25rem;
+                    min-width: 3rem;
                     padding-right: 0.5rem;
                 }
                 dt .record {
+                    display: inline-block;
                     font-size: .75rem;
+                    min-width: 3rem;
                 }
                 dd {
                     flex: 1 1 auto;
@@ -89,32 +99,43 @@ export class GameBlock extends HTMLElement {
             
             <ul class="boxscore">
                 <li class="team-data">
-                <dl class="away">
-                    <dt>
-                        <span class="team-name">${away.team.triCode}</span>
-                        <span class="record">${this.awayRecord}</span>
-                    </dt>
-                    <dd>
-                        <period-breakdown periods=${periodsData} team="away"></period-breakdown>
-                    </dd>
-                    <dd>${away.teamStats.teamSkaterStats.goals}</dd>
-                </dl>
-                <dl class="home">
-                    <dt>
-                    <span class="team-name">${home.team.triCode}</span>
-                        <span class="record">${this.homeRecord}</span>
-                    </dt>
-                    <dd>
-                    <period-breakdown periods=${periodsData} team="home"></period-breakdown>
-                    </dd>
-                    <dd>${home.teamStats.teamSkaterStats.goals}</dd>
-                </dl>
+                    <dl class="away">
+                        <dt>
+                            <span class="team-name">${away.team.triCode}</span>
+                            <span class="record">${this.awayRecord}</span>
+                        </dt>
+                        <dd>
+                            <period-breakdown periods=${periodsData} team="away"></period-breakdown>
+                        </dd>
+                        <dd>${away.teamStats.teamSkaterStats.goals}</dd>
+                    </dl>
+                    <dl class="home">
+                        <dt>
+                        <span class="team-name">${home.team.triCode}</span>
+                            <span class="record">${this.homeRecord}</span>
+                        </dt>
+                        <dd>
+                        <period-breakdown periods=${periodsData} team="home"></period-breakdown>
+                        </dd>
+                        <dd>${home.teamStats.teamSkaterStats.goals}</dd>
+                    </dl>
                 </li>
                 <li class="game-data">
-                <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
-                    <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
-                    <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
-                </dl>
+                    <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
+                        <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
+                        <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
+                    </dl>
+                </li>
+                <li class="goal-scorers">
+                    <ul>
+                       ${scoringPlays.length > 0 
+                            ? scoringPlays.map(play => {
+                                console.log('scoring play', allPlays[play]);
+                                return `<li>${allPlays[play].team.triCode}: ${allPlays[play].result.description}</li>`
+                            }).join('')
+                            : `<li></li>`
+                        }
+                    </ul>
                 </li>
             </ul>
             `
