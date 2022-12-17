@@ -95,6 +95,20 @@ export class GameBlock extends HTMLElement {
                 .home dd:last-of-type {
                     font-size: 1.5rem;
                 }
+                .game-data dl {
+                    margin-bottom: 0;
+                }
+                details {
+                    display: block;
+                    line-height: 1.5rem;
+                    padding: 0 0 0.5rem;
+                }
+                .goal-scorers {
+                    font-size: 0.9rem;
+                }
+                .goal-scorers .team-name {
+                    font-family: 'FigtreeMedium', sans-serif;
+                }
             </style>
             
             <ul class="boxscore">
@@ -126,17 +140,17 @@ export class GameBlock extends HTMLElement {
                         <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
                     </dl>
                 </li>
-                <li class="goal-scorers">
+                <details class="goal-scorers">
+                    <summary>Scoring Details</summary>
                     <ul>
-                       ${scoringPlays.length > 0 
+                        ${scoringPlays.length > 0 
                             ? scoringPlays.map(play => {
-                                console.log('scoring play', allPlays[play]);
-                                return `<li>${allPlays[play].team.triCode}: ${allPlays[play].result.description}</li>`
+                                return `<li><span class="team-name">${allPlays[play].team.triCode}</span>: ${allPlays[play].result.description}</li>`
                             }).join('')
-                            : `<li></li>`
+                            : ``
                         }
                     </ul>
-                </li>
+                </details>
             </ul>
             `
         }
