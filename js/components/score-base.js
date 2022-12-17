@@ -7,69 +7,11 @@ export class ScoreBase extends HTMLElement {
     this.baseUrl = 'https://statsapi.web.nhl.com/api/v1/schedule';
     this.copyright = '';
     this.games = {};
-    this.season = '';
-    this.seasonMax = '';
-    this.seasonMin = '';
-    this.today = '';
-    this.tomorrow = '';
-    this.totalGames = 0;
-    this.yesterday = '';
-    this.seasons = [
-        20222023,
-        20212022,
-        20202021,
-        20192020,
-        20182019
-    ];
-    this.site = `<style>
-    ul {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0;
-    }
-    li {
-        flex: 1 1 25%;
-        list-style-type: none;
-        margin: 1rem 1.5rem 0.5rem;
-        padding: 0 1rem;
-    }
-
-    .date-nav li {
-      margin: 0;
-      padding: 0;
-    }
-    .date-nav a {
-      color: black;
-      text-decoration: none;
-    }
-    .date_nav a:hover {
-      text-decoration: underline;
-    }
-    .previous {
-      text-align: right;
-    }
-    .current {
-      text-align: center;
-    }
-    .today {
-      font-family: 'FigtreeBold',sans-serif;
-    }
-    .next {
-      text-align: left;
-    }
-    footer {
-      padding: 0 2.5rem;
-    }
-  </style>`
+    this.today = {};
   }
 
   async connectedCallback() {
-    await this.setScheduleBounds(this.seasons[0]);
     this.updateScheduleData(new dayjs());
-
-    this.shadowRoot.addEventListener('click', (event) => {
-        this.dateResponse(event);
-    });
   }
 
   async updateGameData(dateObject) {
@@ -78,47 +20,24 @@ export class ScoreBase extends HTMLElement {
     this.copyright = await json.copyright;
     this.games = await json.dates[0];
     this.totalGames = await json.totalGames;
-  }
-
-  async updateDateData(dateObject) {
-    this.todayDisplay = dateObject.format('YYYY-MM-DD');
-    const updatedYesterday = dateObject.subtract(1, 'day').format('YYYY-MM-DD');
-    const updatedTomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
-    if(dateObject.isBetween(this.seasonMin, this.seasonMax)) {
-        this.today = dateObject;
-        this.yesterday = updatedYesterday;
-        this.tomorrow = updatedTomorrow;
-    }
-  }
-
-  async setScheduleBounds(seasonString) {
-    const seasonResponse = await fetch(`${this.baseUrl}?season=${seasonString}`);
-    const seasonJson = await seasonResponse.json();
-    this.season = seasonString;
-    this.seasonMin = seasonJson.dates[0].date;
-    this.seasonMax = seasonJson.dates.at(-1).date;
+    this.today = JSON.stringify(dateObject);
   }
 
   async updateScheduleData(dateObject) {
     await this.updateGameData(dateObject);
-    await this.updateDateData(dateObject);
     this.render();
   }
 
-  attributeChangedCallback(attrName, oldVal, newVal) {
-    this.render();
-  }
-
-  async dateResponse(event) {
-    event.preventDefault();
-    if (event.target.nodeName === 'A') {
-        const dateURL = event.composedPath()[0].getAttribute('href');
-        const dateFromUrl =  dateURL.split('/').at(-1).split('=').at(-1);
-        this.updateScheduleData(dayjs(dateFromUrl));
+  async render() {
+    if (this.loading) {
+      this.shadowRoot.innerHTML = `Loading...`;
+    } else {
+      await this.renderData();
+      await this.postRender();
     }
   }
 
-  renderData() {
+  async renderData() {
     this.shadowRoot.innerHTML = `
     <style>
       ul {
@@ -132,47 +51,11 @@ export class ScoreBase extends HTMLElement {
           margin: 1rem 1.5rem 0.5rem;
           padding: 0 1rem;
       }
-
-      .date-nav li {
-        margin: 0;
-        padding: 0;
-      }
-      .date-nav a {
-        color: black;
-        text-decoration: none;
-      }
-      .date_nav a:hover {
-        text-decoration: underline;
-      }
-      .previous {
-        text-align: right;
-      }
-      .current {
-        text-align: center;
-      }
-      .today {
-        font-family: 'FigtreeBold',sans-serif;
-      }
-      .next {
-        text-align: left;
-      }
       footer {
         padding: 0 2.5rem;
       }
     </style>
-    <nav class="date-nav">
-      <ul>
-        <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-            <a href="${this.baseUrl}?date=${this.yesterday}">&laquo; ${this.yesterday}</a>
-        </li>
-        <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-            <a href="${this.baseUrl}?date=${this.todayDisplay}">Current: ${this.todayDisplay}</a>
-        </li>
-        <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-            <a href="${this.baseUrl}?date=${this.tomorrow}">${this.tomorrow} &raquo;</a>
-        </li>
-      </ul>
-    </nav>
+    <date-nav todayDate=${this.today}></date-nav>
     <ul>
       ${ this.totalGames > 0
             ? this.games.games.map((game) => {
@@ -194,12 +77,11 @@ export class ScoreBase extends HTMLElement {
     </footer>`;
   }
 
-  async render() {
-    if (this.loading) {
-      this.shadowRoot.innerHTML = `Loading...`;
-    } else {
-      this.renderData();
-    }
+  async postRender() {
+    const shadow = this.shadowRoot.querySelector('date-nav');
+    shadow.addEventListener("dateUpdated", (e) => {
+        this.updateScheduleData(e.detail);
+    });
   }
 }
 
