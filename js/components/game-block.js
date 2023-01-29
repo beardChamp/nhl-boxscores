@@ -1,5 +1,66 @@
 import './period-breakdown.js';
 
+const styles = new CSSStyleSheet()
+styles.replaceSync(`
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        list-style-type: none;
+        margin: 0;
+    }
+    dl {
+        display: flex;
+        margin-bottom: 10px;
+        padding-bottom: 5px;   
+    }
+    .team-data dl {
+        border-bottom: 1px solid #ddd;
+    }
+    dt {
+        flex: 1 1 auto;
+        min-width: 125px;
+    }
+    dt .team-name {
+        display: inline-block;
+        font-family: 'FigtreeMedium',sans-serif;
+        font-size: 1.25rem;
+        min-width: 3rem;
+        padding-right: 0.5rem;
+    }
+    dt .record {
+        display: inline-block;
+        font-size: .75rem;
+        min-width: 3rem;
+    }
+    dd {
+        flex: 1 1 auto;
+        margin: 0;
+        min-width: 50px;
+        padding: 0;
+        text-align: right;
+    }
+    .away dd:last-of-type,
+    .home dd:last-of-type {
+        font-size: 1.5rem;
+    }
+    .game-data dl {
+        margin-bottom: 0;
+    }
+    details {
+        display: block;
+        line-height: 1.5rem;
+        padding: 0 0 0.5rem;
+    }
+    .goal-scorers {
+        font-size: 0.9rem;
+    }
+    .goal-scorers .team-name {
+        font-family: 'FigtreeMedium', sans-serif;
+    }
+`)
+
 export class GameBlock extends HTMLElement {
   constructor() {
     super();
@@ -15,6 +76,7 @@ export class GameBlock extends HTMLElement {
   }
 
   async connectedCallback() {
+    this.shadowRoot.adoptedStyleSheets = [styles];
     this.awayRecord = this.getAttribute("away-record");
     this.homeRecord = this.getAttribute("home-record");
     this.fetchGameData();
@@ -51,66 +113,6 @@ export class GameBlock extends HTMLElement {
             const now = new dayjs();
 
             this.shadowRoot.innerHTML = `
-            <style>
-                ul {
-                    margin: 0;
-                    padding: 0;
-                }
-                li {
-                    list-style-type: none;
-                    margin: 0;
-                }
-                dl {
-                    display: flex;
-                    margin-bottom: 10px;
-                    padding-bottom: 5px;   
-                }
-                .team-data dl {
-                    border-bottom: 1px solid #ddd;
-                }
-                dt {
-                    flex: 1 1 auto;
-                    min-width: 125px;
-                }
-                dt .team-name {
-                    display: inline-block;
-                    font-family: 'FigtreeMedium',sans-serif;
-                    font-size: 1.25rem;
-                    min-width: 3rem;
-                    padding-right: 0.5rem;
-                }
-                dt .record {
-                    display: inline-block;
-                    font-size: .75rem;
-                    min-width: 3rem;
-                }
-                dd {
-                    flex: 1 1 auto;
-                    margin: 0;
-                    min-width: 50px;
-                    padding: 0;
-                    text-align: right;
-                }
-                .away dd:last-of-type,
-                .home dd:last-of-type {
-                    font-size: 1.5rem;
-                }
-                .game-data dl {
-                    margin-bottom: 0;
-                }
-                details {
-                    display: block;
-                    line-height: 1.5rem;
-                    padding: 0 0 0.5rem;
-                }
-                .goal-scorers {
-                    font-size: 0.9rem;
-                }
-                .goal-scorers .team-name {
-                    font-family: 'FigtreeMedium', sans-serif;
-                }
-            </style>
-            
             <ul class="boxscore">
                 <li class="team-data">
                     <dl class="away">

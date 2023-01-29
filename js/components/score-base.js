@@ -1,5 +1,23 @@
 import './game-block.js';
 
+const styles = new CSSStyleSheet()
+styles.replaceSync(`
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+  li {
+    flex: 1 1 25%;
+    list-style-type: none;
+    margin: 1rem 1.5rem 0.5rem;
+    padding: 0 1rem;
+  }
+  footer {
+    padding: 0 2.5rem;
+  }
+`)
+
 export class ScoreBase extends HTMLElement {
   constructor() {
     super();
@@ -12,6 +30,7 @@ export class ScoreBase extends HTMLElement {
 
   async connectedCallback() {
     this.updateScheduleData(new dayjs());
+    this.shadowRoot.adoptedStyleSheets = [styles];
   }
 
   async updateGameData(dateObject) {
@@ -39,22 +58,6 @@ export class ScoreBase extends HTMLElement {
 
   async renderData() {
     this.shadowRoot.innerHTML = `
-    <style>
-      ul {
-          display: flex;
-          flex-wrap: wrap;
-          padding: 0;
-      }
-      li {
-          flex: 1 1 25%;
-          list-style-type: none;
-          margin: 1rem 1.5rem 0.5rem;
-          padding: 0 1rem;
-      }
-      footer {
-        padding: 0 2.5rem;
-      }
-    </style>
     <date-nav todayDate=${this.today}></date-nav>
     <ul>
       ${ this.totalGames > 0

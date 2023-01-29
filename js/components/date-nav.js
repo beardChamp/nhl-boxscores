@@ -1,3 +1,38 @@
+
+const styles = new CSSStyleSheet()
+styles.replaceSync(`
+    .date-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+    }
+    .date-nav li {
+        flex: 1 1 25%;
+        list-style-type: none;
+        margin: 1rem 1.5rem 0.5rem;
+        padding: 0 1rem;
+    }
+    .date-nav a {
+        color: black;
+        text-decoration: none;
+    }
+    .date_nav a:hover {
+        text-decoration: underline;
+    }
+    .previous {
+        text-align: right;
+    }
+    .current {
+        text-align: center;
+    }
+    .today {
+        font-family: 'FigtreeBold',sans-serif;
+    }
+    .next {
+        text-align: left;
+    }
+`)
+
 export class DateNav extends HTMLElement {
     constructor() {
         super();
@@ -25,6 +60,7 @@ export class DateNav extends HTMLElement {
     }
 
     async connectedCallback() {
+        this.shadowRoot.adoptedStyleSheets = [styles]
         await this.setScheduleBounds(this.seasons[0]);
         this.todayDate = this.getAttribute("todayDate");
         this.today = this.todayDate !== '' ? dayjs(this.todayDate) : new dayjs()
@@ -69,38 +105,6 @@ export class DateNav extends HTMLElement {
 
     async render() {
         this.shadowRoot.innerHTML = `
-        <style>
-            .date-nav ul {
-                display: flex;
-                flex-wrap: wrap;
-                padding: 0;
-            }
-            .date-nav li {
-                flex: 1 1 25%;
-                list-style-type: none;
-                margin: 1rem 1.5rem 0.5rem;
-                padding: 0 1rem;
-            }
-            .date-nav a {
-                color: black;
-                text-decoration: none;
-            }
-            .date_nav a:hover {
-                text-decoration: underline;
-            }
-            .previous {
-                text-align: right;
-            }
-            .current {
-                text-align: center;
-            }
-            .today {
-                font-family: 'FigtreeBold',sans-serif;
-            }
-            .next {
-                text-align: left;
-            }
-        </style>
         <nav class="date-nav">
             <ul>
                 <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
