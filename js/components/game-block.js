@@ -69,16 +69,17 @@ export class GameBlock extends HTMLElement {
     this.awayRecord = '';
     this.homeRecord = '';
     this.data = {};
+    this.standings = this.getAttribute("standings");
   }
 
   static get observedAttributes() {
-    return ['feed'];
+    return ['feed', 'homeRecord', 'awayRecord'];
   }
 
   async connectedCallback() {
     this.shadowRoot.adoptedStyleSheets = [styles];
-    this.awayRecord = this.getAttribute("away-record");
-    this.homeRecord = this.getAttribute("home-record");
+    this.awayRecord = this.getAttribute("awayRecord");
+    this.homeRecord = this.getAttribute("homeRecord");
     this.fetchGameData();
   }
 
@@ -88,7 +89,7 @@ export class GameBlock extends HTMLElement {
 
   async fetchGameData() {
     const feed = this.getAttribute("feed");
-    const response = await fetch(`https://statsapi.web.nhl.com${feed}`);
+    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/gamecenter/${feed}/boxscore`);
     const json = await response.json();
     this.data = await json;
     this.render();
@@ -99,17 +100,21 @@ export class GameBlock extends HTMLElement {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
         // need to handle zero or undefined data states (mostly to supress console errors)
-        if (this.data.liveData) {
-            const away = this.data.liveData.boxscore.teams.away;
-            const home = this.data.liveData.boxscore.teams.home;
-            const linescoreData = this.data.liveData.linescore;
+        // console.log('standings:', this.standings);
+        if (this.data.id) {
+            const away = this.data.awayTeam;
+            const awayScore = away.score ? away.score : 0;
+            const home = this.data.homeTeam;
+            const homeScore = home.score ? home.score : 0;
+            const linescoreData = this.data.boxscore ? this.data.boxscore.linescore : {};
             // going to need to check length and loop through periods, need home and away seperately
-            const periodsData = JSON.stringify(linescoreData.periods);
-            const gameData = this.data.gameData;
-            const scoringPlays = Object.values(this.data.liveData.plays.scoringPlays);
-            const allPlays = this.data.liveData.plays.allPlays;
-            const dateString = dayjs(gameData.datetime.dateTime, 'America/New_York').format('h:mm A');
-            const dateObj = dayjs(gameData.datetime.dateTime);
+            const periodsData = linescoreData.byPeriod ? linescoreData.byPeriod : [];
+            this.awayTeamPeriods = JSON.stringify(periodsData.map((period) => period.away));
+            this.homeTeamPeriods = JSON.stringify(periodsData.map((period) => period.home));;
+            // const scoringPlays = Object.values(this.data.liveData.plays.scoringPlays);
+            // const allPlays = this.data.liveData.plays.allPlays;
+            const dateString = dayjs(this.data.startTimeUTC, 'America/New_York').format('h:mm A');
+            const dateObj = dayjs(this.data.startTimeUTC);
             const now = new dayjs();
 
             this.shadowRoot.innerHTML = `
@@ -117,42 +122,32 @@ export class GameBlock extends HTMLElement {
                 <li class="team-data">
                     <dl class="away">
                         <dt>
-                            <span class="team-name">${away.team.triCode}</span>
+                            <span class="team-name">${away.abbrev}</span>
                             <span class="record">${this.awayRecord}</span>
                         </dt>
                         <dd>
-                            <period-breakdown periods=${periodsData} team="away"></period-breakdown>
+                            <period-breakdown periods=${this.awayTeamPeriods} team="away"></period-breakdown>
                         </dd>
-                        <dd>${away.teamStats.teamSkaterStats.goals}</dd>
+                        <dd>${awayScore}</dd>
                     </dl>
                     <dl class="home">
                         <dt>
-                        <span class="team-name">${home.team.triCode}</span>
+                        <span class="team-name">${home.abbrev}</span>
                             <span class="record">${this.homeRecord}</span>
                         </dt>
                         <dd>
-                        <period-breakdown periods=${periodsData} team="home"></period-breakdown>
+                            <period-breakdown periods=${this.homeTeamPeriods} team="home"></period-breakdown>
                         </dd>
-                        <dd>${home.teamStats.teamSkaterStats.goals}</dd>
+                        <dd>${homeScore}</dd>
                     </dl>
                 </li>
                 <li class="game-data">
-                    <dl class="${gameData.status.detailedState === 'In Progress' ? 'show' : 'hide'}">
-                        <dt>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodOrdinal : ''}</dt>
-                        <dd>${now.diff(dateObj) > 0 ? linescoreData.currentPeriodTimeRemaining : dateString}</dd>
+                    <dl class="${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
+                        <dt>${now.diff(dateObj) > 0 ? this.data.period : ''}</dt>
+                        <dd>${now.diff(dateObj) > 0 ? this.data.clock.timeRemaining : dateString}</dd>
                     </dl>
                 </li>
-                <details class="goal-scorers">
-                    <summary>Scoring Details</summary>
-                    <ul>
-                        ${scoringPlays.length > 0 
-                            ? scoringPlays.map(play => {
-                                return `<li><span class="team-name">${allPlays[play].team.triCode}</span>: ${allPlays[play].result.description}</li>`
-                            }).join('')
-                            : ``
-                        }
-                    </ul>
-                </details>
+                
             </ul>
             `
         }

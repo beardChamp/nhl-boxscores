@@ -37,7 +37,7 @@ export class DateNav extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.baseUrl = 'https://statsapi.web.nhl.com/api/v1/schedule';
+        this.baseUrl = 'https://api-web.nhle.com/v1/schedule';
         this.season = '';
         this.seasonMax = '';
         this.seasonMin = '';
@@ -47,6 +47,7 @@ export class DateNav extends HTMLElement {
         this.totalGames = 0;
         this.yesterday = '';
         this.seasons = [
+            20232024,
             20222023,
             20212022,
             20202021,
@@ -61,7 +62,7 @@ export class DateNav extends HTMLElement {
 
     async connectedCallback() {
         this.shadowRoot.adoptedStyleSheets = [styles]
-        await this.setScheduleBounds(this.seasons[0]);
+        // await this.setScheduleBounds(this.seasons[0]);
         this.todayDate = this.getAttribute("todayDate");
         this.today = this.todayDate !== '' ? dayjs(this.todayDate) : new dayjs()
         
@@ -70,30 +71,32 @@ export class DateNav extends HTMLElement {
         this.postRender();
     }
 
-    async setScheduleBounds(seasonString) {
-        const seasonResponse = await fetch(`${this.baseUrl}?season=${seasonString}`);
-        const seasonJson = await seasonResponse.json();
-        this.season = seasonString;
-        this.seasonMin = seasonJson.dates[0].date;
-        this.seasonMax = seasonJson.dates.at(-1).date;
-    }
+    // async setScheduleBounds(seasonString) {
+    //     const seasonResponse = await fetch(`${this.baseUrl}?season=${seasonString}`);
+    //     const seasonJson = await seasonResponse.json();
+    //     this.season = seasonString;
+    //     this.seasonMin = seasonJson.dates[0].date;
+    //     this.seasonMax = seasonJson.dates.at(-1).date;
+    //     console.log('season, min, max', this.season, this.seasonMin, this.seasonMax);
+    // }
 
     async updateDateData(dateObject) {
         this.todayDisplay = dateObject.format('YYYY-MM-DD');
         const updatedYesterday = dateObject.subtract(1, 'day').format('YYYY-MM-DD');
         const updatedTomorrow = dateObject.add(1, 'day').format('YYYY-MM-DD');
-        if(dateObject.isBetween(this.seasonMin, this.seasonMax)) {
+        // if(dateObject.isBetween(this.seasonMin, this.seasonMax)) {
             this.today = dateObject;
             this.yesterday = updatedYesterday;
             this.tomorrow = updatedTomorrow;
-        }
+        // }
     }
 
     async dateResponse(event) {
         event.preventDefault();
         if (event.target.nodeName === 'A') {
             const dateURL = event.composedPath()[0].getAttribute('href');
-            const dateFromUrl =  dateURL.split('/').at(-1).split('=').at(-1);
+            console.log('dateURL', dateURL);
+            const dateFromUrl = dateURL.split('/').at(-1).split('=').at(-1);
             this.updateDateData(dayjs(dateFromUrl));
             // await this.render();
             // await this.postRender();
@@ -102,19 +105,22 @@ export class DateNav extends HTMLElement {
               }));
         }
       }
+    
+    goToNearestComingDate() {
+        // jump to nearest future game date
+    }
 
     async render() {
         this.shadowRoot.innerHTML = `
         <nav class="date-nav">
             <ul>
                 <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-                    <a href="${this.baseUrl}?date=${this.yesterday}">&laquo; ${this.yesterday}</a>
+                    &laquo; Yesterday</a>
                 </li>
                 <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-                    <a href="${this.baseUrl}?date=${this.todayDisplay}">Current: ${this.todayDisplay}</a>
-                </li>
+                    Today</li>
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-                    <a href="${this.baseUrl}?date=${this.tomorrow}">${this.tomorrow} &raquo;</a>
+                    Tomorrow &raquo;
                 </li>
             </ul>
         </nav>
@@ -122,6 +128,21 @@ export class DateNav extends HTMLElement {
     }
 
     postRender() {
+        this.shadowRoot.innerHTML = `
+        <nav class="date-nav">
+            <ul>
+                <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+                    <a href="${this.baseUrl}/${this.yesterday}">&laquo; ${this.yesterday}</a>
+                </li>
+                <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+                    <a href="${this.baseUrl}/=${this.todayDisplay}">Today: ${this.todayDisplay}</a>
+                </li>
+                <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
+                    <a href="${this.baseUrl}/=${this.tomorrow}">${this.tomorrow} &raquo;</a>
+                </li>
+            </ul>
+        </nav>
+        `
         const dateNav = this.shadowRoot.querySelectorAll('.date-nav li a');
         dateNav.forEach((navItem) => 
             navItem.addEventListener('click', (event) => {

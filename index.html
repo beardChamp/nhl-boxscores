@@ -60,6 +60,14 @@
         <script src="js/utc.js"></script>
         <script src="js/timezone.js"></script>
         <script src="js/isbetween.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>NHL Boxscores</h1>
+        </header>
+        <main class="data-container">
+            <score-base></score-base>
+        </main>
         <script>
             dayjs.extend(window.dayjs_plugin_utc)
             dayjs.extend(window.dayjs_plugin_timezone)
@@ -71,13 +79,5 @@
             import './js/components/period-breakdown.js';
             import './js/components/date-nav.js';
         </script>
-    </head>
-    <body>
-        <header>
-            <h1>NHL Boxscores</h1>
-        </header>
-        <main class="data-container">
-            <score-base></score-base>
-        </main>
     </body>
 </html>

@@ -22,27 +22,41 @@ export class ScoreBase extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.baseUrl = 'https://statsapi.web.nhl.com/api/v1/schedule';
+    this.baseUrl = 'http://localhost:8080/https://api-web.nhle.com/v1/schedule';
     this.copyright = '';
     this.games = {};
     this.today = {};
+    this.date = new dayjs();
   }
 
   async connectedCallback() {
-    this.updateScheduleData(new dayjs());
+    await this.fetchStandings();
+    await this.updateScheduleData(this.date);
     this.shadowRoot.adoptedStyleSheets = [styles];
   }
 
-  async updateGameData(dateObject) {
-    const response = await fetch(`${this.baseUrl}?date=${dateObject.format('YYYY-MM-DD')}`);
+  async fetchStandings(dateObject) {
+    dateObject = dateObject ? dateObject : this.date.format('YYYY-MM-DD');
+    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/standings/${this.date.format('YYYY-MM-DD')}`);
     const json = await response.json();
-    this.copyright = await json.copyright;
-    this.games = await json.dates[0];
-    this.totalGames = await json.totalGames;
+    this.standings = await json.standings;
+  }
+
+  async updateGameData(dateObject) {
+    const response = await fetch(`${this.baseUrl}/${dateObject.format('YYYY-MM-DD')}`);
+    const json = await response.json();
+    this.games = await json.gameWeek.find((date) => date.date === dateObject.format('YYYY-MM-DD'));
+    this.totalGames = await this.games.games.length;
     this.today = JSON.stringify(dateObject);
   }
 
+  buildTeamRecord(abbr) {
+    const teamObject = this.standings.filter((team) => team.teamAbbrev.default === abbr);
+    return `(${teamObject[0].wins}-${teamObject[0].losses}-${teamObject[0].otLosses})`
+  }
+
   async updateScheduleData(dateObject) {
+    await this.fetchStandings(dateObject);
     await this.updateGameData(dateObject);
     this.render();
   }
@@ -62,11 +76,9 @@ export class ScoreBase extends HTMLElement {
     <ul>
       ${ this.totalGames > 0
             ? this.games.games.map((game) => {
-                const awayRecord = game.teams.away.leagueRecord;
-                const homeRecord = game.teams.home.leagueRecord
                 return `
                 <li>
-                    <game-block feed="${game.link}" away-record="(${awayRecord.wins !== undefined ? awayRecord.wins : '0'}-${awayRecord.losses !== undefined ? awayRecord.losses : '0'}-${awayRecord.ot ? awayRecord.ot : '0'})" home-record="(${homeRecord.wins !== undefined ? homeRecord.wins : '0'}-${homeRecord.losses !== undefined ? homeRecord.losses : '0'}-${homeRecord.ot !== undefined ? homeRecord.ot : '0'})"></game-block>
+                    <game-block feed="${game.id}" homeRecord="${this.buildTeamRecord(game.homeTeam.abbrev)}" awayRecord="${this.buildTeamRecord(game.awayTeam.abbrev)}"></game-block>
                 </li>
                 `;
             }).join('')
@@ -76,7 +88,7 @@ export class ScoreBase extends HTMLElement {
         }
     </ul>
     <footer>
-      <p><small>Disclaimer: ${this.copyright}</small></p>
+      <p><small>Disclaimer: Copyright message</small></p>
     </footer>`;
   }
 

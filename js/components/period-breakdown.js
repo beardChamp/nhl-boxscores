@@ -27,13 +27,15 @@ export class PeriodBreakdown extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['feed'];
+        return ['periods'];
     }
 
     async connectedCallback() {
         this.shadowRoot.adoptedStyleSheets = [styles]
-        this.periods = this.getAttribute('periods') !=='' ? JSON.parse(this.getAttribute('periods')) : [{}];
-        this.team = this.getAttribute('team');
+        // this.periods = this.getAttribute('periods') ? JSON.parse(this.getAttribute('periods')) : [{}];
+        const periods = this.getAttribute('periods');
+        this.periods = typeof periods === 'string' ? JSON.parse(periods) : periods;
+        console.log('periods', this.periods);
         this.render();
     }
 
@@ -42,20 +44,25 @@ export class PeriodBreakdown extends HTMLElement {
     }
 
     render() {
-        const periodsListing = this.periods.map((period) => {
-            return period[this.team]
-        });
-        // console.log('periodsListing', periodsListing);
-        this.shadowRoot.innerHTML = `
-            <ul class="periods">
-                ${periodsListing.map((period)=> {
-                        return `
-                            <li>${period.goals}</li>
-                        `
-                    }).join('')
-                }
-            </ul>
-        `
+        if (this.periods) {
+            // const periodsListing = this.periods.map((period) => {
+            //     return period[this.team]
+            // });
+            // console.log('periodsListing', periodsListing);
+            this.shadowRoot.innerHTML = `
+                <ul class="periods">
+                    ${this.periods.map((period)=> {
+                            return `
+                                <li>
+                                    ${period}
+                                </li>
+                            `
+                        }).join('')
+                    }
+                </ul>
+            `
+        }
+        
     }
 }
 
