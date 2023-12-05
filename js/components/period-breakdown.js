@@ -32,10 +32,8 @@ export class PeriodBreakdown extends HTMLElement {
 
     async connectedCallback() {
         this.shadowRoot.adoptedStyleSheets = [styles]
-        // this.periods = this.getAttribute('periods') ? JSON.parse(this.getAttribute('periods')) : [{}];
         const periods = this.getAttribute('periods');
         this.periods = typeof periods === 'string' ? JSON.parse(periods) : periods;
-        console.log('periods', this.periods);
         this.render();
     }
 
@@ -45,10 +43,6 @@ export class PeriodBreakdown extends HTMLElement {
 
     render() {
         if (this.periods) {
-            // const periodsListing = this.periods.map((period) => {
-            //     return period[this.team]
-            // });
-            // console.log('periodsListing', periodsListing);
             this.shadowRoot.innerHTML = `
                 <ul class="periods">
                     ${this.periods.map((period)=> {

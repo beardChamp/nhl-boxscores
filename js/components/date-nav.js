@@ -25,6 +25,11 @@ styles.replaceSync(`
     .current {
         text-align: center;
     }
+    .current h2 {
+        font-size: 1rem;
+        font-weight: normal;
+        margin: 0;
+    }
     .today {
         font-family: 'FigtreeBold',sans-serif;
     }
@@ -47,6 +52,8 @@ export class DateNav extends HTMLElement {
         this.totalGames = 0;
         this.yesterday = '';
         this.seasons = [
+            20252026,
+            20242025,
             20232024,
             20222023,
             20212022,
@@ -95,11 +102,8 @@ export class DateNav extends HTMLElement {
         event.preventDefault();
         if (event.target.nodeName === 'A') {
             const dateURL = event.composedPath()[0].getAttribute('href');
-            console.log('dateURL', dateURL);
             const dateFromUrl = dateURL.split('/').at(-1).split('=').at(-1);
             this.updateDateData(dayjs(dateFromUrl));
-            // await this.render();
-            // await this.postRender();
             this.dispatchEvent(new CustomEvent("dateUpdated",{
                 detail: dayjs(dateFromUrl)
               }));
@@ -118,7 +122,7 @@ export class DateNav extends HTMLElement {
                     &laquo; Yesterday</a>
                 </li>
                 <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-                    Today</li>
+                    Current</li>
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     Tomorrow &raquo;
                 </li>
@@ -135,7 +139,7 @@ export class DateNav extends HTMLElement {
                     <a href="${this.baseUrl}/${this.yesterday}">&laquo; ${this.yesterday}</a>
                 </li>
                 <li class="current ${this.todayDisplay === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
-                    <a href="${this.baseUrl}/=${this.todayDisplay}">Today: ${this.todayDisplay}</a>
+                    <a href="${this.baseUrl}/=${this.todayDisplay}"><h2>Current: ${this.todayDisplay}</h2></a>
                 </li>
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     <a href="${this.baseUrl}/=${this.tomorrow}">${this.tomorrow} &raquo;</a>

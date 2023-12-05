@@ -24,8 +24,10 @@ styles.replaceSync(`
     }
     dt .team-name {
         display: inline-block;
-        font-family: 'FigtreeMedium',sans-serif;
+        font-family: 'FigtreeMedium', sans-serif;
         font-size: 1.25rem;
+        font-weight: normal;
+        margin: 0;
         min-width: 3rem;
         padding-right: 0.5rem;
     }
@@ -58,6 +60,34 @@ styles.replaceSync(`
     }
     .goal-scorers .team-name {
         font-family: 'FigtreeMedium', sans-serif;
+    }
+    .scoring-block {
+        display: flex;
+        padding-left: 0.8rem;
+    }
+    .scoring-block > div {
+        flex: 1 1 auto;
+        margin-top: 0.5rem;
+    }
+    .scoring-block h4 {
+        border-bottom: 1px solid #ddd;
+        font-family: "FigtreeMedium", sans-serif;
+        font-weight: normal;
+        margin: 0px 0 6px 0;
+        padding-bottom: 2px;
+    }
+    .scoring-block .team-name,
+    .scoring-block .player-name {
+        display: inline-block;
+        width: 45%;
+    }
+    .scoring-block .team-goals, 
+    .scoring-block .player-goals,
+    .scoring-block .team-assists,
+    .scoring-block .player-assists {
+        color: #666;
+        display: inline-block;
+        width: 15%;
     }
 `)
 
@@ -100,19 +130,22 @@ export class GameBlock extends HTMLElement {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
         // need to handle zero or undefined data states (mostly to supress console errors)
-        // console.log('standings:', this.standings);
         if (this.data.id) {
             const away = this.data.awayTeam;
             const awayScore = away.score ? away.score : 0;
             const home = this.data.homeTeam;
             const homeScore = home.score ? home.score : 0;
             const linescoreData = this.data.boxscore ? this.data.boxscore.linescore : {};
+            const awayPlayers = this.data.boxscore ? [...this.data.boxscore.playerByGameStats.awayTeam.forwards, ...this.data.boxscore.playerByGameStats.awayTeam.defense] : [];
+            const awayScorers = awayPlayers.length > 0 ? awayPlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
+            const homePlayers = this.data.boxscore ? [...this.data.boxscore.playerByGameStats.homeTeam.forwards, ...this.data.boxscore.playerByGameStats.homeTeam.defense] : [];
+            const homeScorers = homePlayers.length > 0 ? homePlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
+            
             // going to need to check length and loop through periods, need home and away seperately
             const periodsData = linescoreData.byPeriod ? linescoreData.byPeriod : [];
             this.awayTeamPeriods = JSON.stringify(periodsData.map((period) => period.away));
             this.homeTeamPeriods = JSON.stringify(periodsData.map((period) => period.home));;
-            // const scoringPlays = Object.values(this.data.liveData.plays.scoringPlays);
-            // const allPlays = this.data.liveData.plays.allPlays;
+            
             const dateString = dayjs(this.data.startTimeUTC, 'America/New_York').format('h:mm A');
             const dateObj = dayjs(this.data.startTimeUTC);
             const now = new dayjs();
@@ -122,7 +155,7 @@ export class GameBlock extends HTMLElement {
                 <li class="team-data">
                     <dl class="away">
                         <dt>
-                            <span class="team-name">${away.abbrev}</span>
+                            <h3 class="team-name">${away.abbrev}</h3>
                             <span class="record">${this.awayRecord}</span>
                         </dt>
                         <dd>
@@ -132,7 +165,7 @@ export class GameBlock extends HTMLElement {
                     </dl>
                     <dl class="home">
                         <dt>
-                        <span class="team-name">${home.abbrev}</span>
+                            <h3 class="team-name">${home.abbrev}</h3>
                             <span class="record">${this.homeRecord}</span>
                         </dt>
                         <dd>
@@ -143,11 +176,33 @@ export class GameBlock extends HTMLElement {
                 </li>
                 <li class="game-data">
                     <dl class="${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
-                        <dt>${now.diff(dateObj) > 0 ? this.data.period : ''}</dt>
-                        <dd>${now.diff(dateObj) > 0 ? this.data.clock.timeRemaining : dateString}</dd>
+                        <dt>${now.diff(dateObj) > 0  && this.data.clock.running ? this.data.period : ''}</dt>
+                        <dd>${now.diff(dateObj) > 0  ? this.data.clock.timeRemaining : dateString}</dd>
                     </dl>
-                </li>
-                
+                </li> 
+                <details class="goal-scorers">
+                    <summary>Scoring Details</summary>
+                    <section class="scoring-block">
+                        <div class="goals-away">
+                            <h4><span class="team-name">${away.abbrev}</span> <span class="team-goals">G</span> <span class="team-assists">A</span></h4>
+                            <ul>
+                                ${awayScorers.length > 0 ?
+                                    awayScorers.map((player) => `<li><span class="player-name">${player.name.default}</span> <span class="player-goals">${player.goals}</span> <span class="player-assists">${player.assists}</span></li>`).join('')
+                                    : ``
+                                }
+                            </ul>
+                        </div>
+                        <div class="goals-home">
+                            <h4><span class="team-name">${home.abbrev}</span> <span class="team-goals">G</span> <span class="team-assists">A</span></h4>
+                            <ul>
+                                ${homeScorers.length > 0 ?
+                                    homeScorers.map((player) => `<li><span class="player-name">${player.name.default}</span>  <span class="player-goals">${player.goals}</span> <span class="player-assists">${player.assists}</span></li>`).join('')
+                                    : ``
+                                }
+                            </ul>
+                        </div>
+                    </section>
+                </details>
             </ul>
             `
         }

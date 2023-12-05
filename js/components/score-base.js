@@ -36,8 +36,8 @@ export class ScoreBase extends HTMLElement {
   }
 
   async fetchStandings(dateObject) {
-    dateObject = dateObject ? dateObject : this.date.format('YYYY-MM-DD');
-    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/standings/${this.date.format('YYYY-MM-DD')}`);
+    dateObject = dateObject ? dayjs(dateObject).format('YYYY-MM-DD') : this.date.format('YYYY-MM-DD');
+    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/standings/${dateObject}`);
     const json = await response.json();
     this.standings = await json.standings;
   }
@@ -88,7 +88,7 @@ export class ScoreBase extends HTMLElement {
         }
     </ul>
     <footer>
-      <p><small>Disclaimer: Copyright message</small></p>
+      <p><small>Disclaimer: NHL and the NHL Shield are registered trademarks of the National Hockey League. NHL and NHL team marks are the property of the NHL and its teams. &copy; NHL 2023. All Rights Reserved.</small></p>
     </footer>`;
   }
 
