@@ -14,7 +14,8 @@ styles.replaceSync(`
     }
     li {
         color: #666;
-        flex: 1 0 33%;
+        flex: 1 0 30%;
+        text-align: center;
     }
 `)
 

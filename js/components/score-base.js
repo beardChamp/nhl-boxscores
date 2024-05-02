@@ -11,6 +11,7 @@ styles.replaceSync(`
     flex: 1 1 25%;
     list-style-type: none;
     margin: 1rem 1.5rem 0.5rem;
+    max-width: 50%;
     padding: 0 1rem;
   }
   footer {

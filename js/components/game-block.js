@@ -61,6 +61,9 @@ styles.replaceSync(`
     .goal-scorers .team-name {
         font-family: 'FigtreeMedium', sans-serif;
     }
+    .goal-scorers .time-remaining dl {
+        padding-bottom: 0;
+    }
     .scoring-block {
         display: flex;
         padding-left: 0.8rem;
@@ -130,16 +133,18 @@ export class GameBlock extends HTMLElement {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
         // need to handle zero or undefined data states (mostly to supress console errors)
-        if (this.data.id) {
+        if (this.data && this.data.id) {
             const away = this.data.awayTeam;
+            const awayPlayers = this.data.playerByGameStats ? [...this.data.playerByGameStats.awayTeam.forwards, ...this.data.playerByGameStats.awayTeam.defense] : [];
             const awayScore = away.score ? away.score : 0;
-            const home = this.data.homeTeam;
-            const homeScore = home.score ? home.score : 0;
-            const linescoreData = this.data.boxscore ? this.data.boxscore.linescore : {};
-            const awayPlayers = this.data.boxscore ? [...this.data.boxscore.playerByGameStats.awayTeam.forwards, ...this.data.boxscore.playerByGameStats.awayTeam.defense] : [];
             const awayScorers = awayPlayers.length > 0 ? awayPlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
-            const homePlayers = this.data.boxscore ? [...this.data.boxscore.playerByGameStats.homeTeam.forwards, ...this.data.boxscore.playerByGameStats.homeTeam.defense] : [];
+            
+            const home = this.data.homeTeam;
+            const homePlayers = this.data.playerByGameStats ? [...this.data.playerByGameStats.homeTeam.forwards, ...this.data.playerByGameStats.homeTeam.defense] : [];
+            const homeScore = home.score ? home.score : 0;
             const homeScorers = homePlayers.length > 0 ? homePlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
+
+            const linescoreData = this.data.summary ? this.data.summary.linescore : {};
             
             // going to need to check length and loop through periods, need home and away seperately
             const periodsData = linescoreData.byPeriod ? linescoreData.byPeriod : [];
@@ -175,7 +180,7 @@ export class GameBlock extends HTMLElement {
                     </dl>
                 </li>
                 <li class="game-data">
-                    <dl class="${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
+                    <dl class="time-remaining ${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
                         <dt>${now.diff(dateObj) > 0  && this.data.clock.running ? this.data.period : ''}</dt>
                         <dd>${now.diff(dateObj) > 0  ? this.data.clock.timeRemaining : dateString}</dd>
                     </dl>

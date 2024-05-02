@@ -1,0 +1,1387 @@
+{
+    "id": 2023030165,
+    "season": 20232024,
+    "gameType": 3,
+    "limitedScoring": false,
+    "gameDate": "2024-04-30",
+    "venue": {
+      "default": "Canada Life Centre"
+    },
+    "venueLocation": {
+      "default": "Winnipeg"
+    },
+    "startTimeUTC": "2024-05-01T01:30:00Z",
+    "easternUTCOffset": "-04:00",
+    "venueUTCOffset": "-05:00",
+    "tvBroadcasts": [
+      {
+        "id": 309,
+        "market": "N",
+        "countryCode": "US",
+        "network": "ESPN",
+        "sequenceNumber": 2
+      },
+      {
+        "id": 4,
+        "market": "N",
+        "countryCode": "CA",
+        "network": "CBC",
+        "sequenceNumber": 24
+      },
+      {
+        "id": 289,
+        "market": "N",
+        "countryCode": "CA",
+        "network": "SNW",
+        "sequenceNumber": 30
+      },
+      {
+        "id": 281,
+        "market": "N",
+        "countryCode": "CA",
+        "network": "TVAS",
+        "sequenceNumber": 31
+      },
+      {
+        "id": 2,
+        "market": "A",
+        "countryCode": "US",
+        "network": "ALT",
+        "sequenceNumber": 53
+      }
+    ],
+    "gameState": "OFF",
+    "gameScheduleState": "OK",
+    "periodDescriptor": {
+      "number": 3,
+      "periodType": "REG"
+    },
+    "regPeriods": 3,
+    "awayTeam": {
+      "id": 21,
+      "name": {
+        "default": "Avalanche"
+      },
+      "abbrev": "COL",
+      "score": 6,
+      "sog": 32,
+      "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+      "placeName": {
+        "default": "Colorado"
+      }
+    },
+    "homeTeam": {
+      "id": 52,
+      "name": {
+        "default": "Jets"
+      },
+      "abbrev": "WPG",
+      "score": 3,
+      "sog": 36,
+      "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+      "placeName": {
+        "default": "Winnipeg"
+      }
+    },
+    "clock": {
+      "timeRemaining": "00:00",
+      "secondsRemaining": 0,
+      "running": false,
+      "inIntermission": false
+    },
+    "playerByGameStats": {
+      "awayTeam": {
+        "forwards": [
+          {
+            "playerId": 8470610,
+            "sweaterNumber": 9,
+            "name": {
+              "default": "Z. Parise"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "12:06"
+          },
+          {
+            "playerId": 8471699,
+            "sweaterNumber": 11,
+            "name": {
+              "default": "A. Cogliano"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 1,
+            "toi": "08:33"
+          },
+          {
+            "playerId": 8479520,
+            "sweaterNumber": 12,
+            "name": {
+              "default": "B. Duhaime"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "09:22"
+          },
+          {
+            "playerId": 8477501,
+            "sweaterNumber": 13,
+            "name": {
+              "default": "V. Nichushkin",
+              "cs": "V. Ničuškin",
+              "fi": "V. Nitshushkin",
+              "sk": "V. Ničuškin"
+            },
+            "position": "R",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 3,
+            "pim": 0,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0,
+            "toi": "20:44"
+          },
+          {
+            "playerId": 8479525,
+            "sweaterNumber": 20,
+            "name": {
+              "default": "R. Colton"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 4,
+            "faceoffWinningPctg": 0.583333,
+            "toi": "12:23"
+          },
+          {
+            "playerId": 8477425,
+            "sweaterNumber": 28,
+            "name": {
+              "default": "M. Wood"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 2,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 5,
+            "faceoffWinningPctg": 0,
+            "toi": "13:09"
+          },
+          {
+            "playerId": 8477492,
+            "sweaterNumber": 29,
+            "name": {
+              "default": "N. MacKinnon"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 2,
+            "points": 2,
+            "plusMinus": 3,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 7,
+            "faceoffWinningPctg": 0.315789,
+            "toi": "21:43"
+          },
+          {
+            "playerId": 8479999,
+            "sweaterNumber": 37,
+            "name": {
+              "default": "C. Mittelstadt"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 1,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0.416667,
+            "toi": "16:49"
+          },
+          {
+            "playerId": 8481042,
+            "sweaterNumber": 51,
+            "name": {
+              "default": "N. Kovalenko"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 1,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 1,
+            "toi": "06:19"
+          },
+          {
+            "playerId": 8477476,
+            "sweaterNumber": 62,
+            "name": {
+              "default": "A. Lehkonen"
+            },
+            "position": "L",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0,
+            "toi": "19:23"
+          },
+          {
+            "playerId": 8478508,
+            "sweaterNumber": 73,
+            "name": {
+              "default": "Y. Trenin"
+            },
+            "position": "C",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 2,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 2,
+            "faceoffWinningPctg": 0.466667,
+            "toi": "16:10"
+          },
+          {
+            "playerId": 8478420,
+            "sweaterNumber": 96,
+            "name": {
+              "default": "M. Rantanen"
+            },
+            "position": "R",
+            "goals": 2,
+            "assists": 1,
+            "points": 3,
+            "plusMinus": 4,
+            "pim": 0,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 4,
+            "faceoffWinningPctg": 0,
+            "toi": "22:46"
+          }
+        ],
+        "defense": [
+          {
+            "playerId": 8471677,
+            "sweaterNumber": 3,
+            "name": {
+              "default": "J. Johnson"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "12:13"
+          },
+          {
+            "playerId": 8478038,
+            "sweaterNumber": 7,
+            "name": {
+              "default": "D. Toews"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 2,
+            "points": 2,
+            "plusMinus": 3,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 2,
+            "faceoffWinningPctg": 0,
+            "toi": "22:51"
+          },
+          {
+            "playerId": 8480069,
+            "sweaterNumber": 8,
+            "name": {
+              "default": "C. Makar"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 2,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 2,
+            "faceoffWinningPctg": 0,
+            "toi": "23:39"
+          },
+          {
+            "playerId": 8480336,
+            "sweaterNumber": 26,
+            "name": {
+              "default": "S. Walker"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 2,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 2,
+            "faceoffWinningPctg": 0,
+            "toi": "15:35"
+          },
+          {
+            "playerId": 8476312,
+            "sweaterNumber": 42,
+            "name": {
+              "default": "J. Manson"
+            },
+            "position": "D",
+            "goals": 1,
+            "assists": 1,
+            "points": 2,
+            "plusMinus": 2,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0,
+            "toi": "21:28"
+          },
+          {
+            "playerId": 8479398,
+            "sweaterNumber": 49,
+            "name": {
+              "default": "S. Girard"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "22:33"
+          }
+        ],
+        "goalies": [
+          {
+            "playerId": 8480382,
+            "sweaterNumber": 40,
+            "name": {
+              "default": "A. Georgiev",
+              "cs": "A. Georgijev",
+              "fi": "A. Georgijev",
+              "sk": "A. Georgijev"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "31/32",
+            "powerPlayShotsAgainst": "2/3",
+            "shorthandedShotsAgainst": "1/1",
+            "saveShotsAgainst": "34/36",
+            "savePctg": "0.944",
+            "evenStrengthGoalsAgainst": 2,
+            "powerPlayGoalsAgainst": 1,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 3,
+            "toi": "60:00",
+            "starter": true,
+            "decision": "W"
+          },
+          {
+            "playerId": 8481020,
+            "sweaterNumber": 60,
+            "name": {
+              "default": "J. Annunen"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "0/0",
+            "powerPlayShotsAgainst": "0/0",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "0/0",
+            "evenStrengthGoalsAgainst": 0,
+            "powerPlayGoalsAgainst": 0,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 0,
+            "toi": "00:00",
+            "starter": false
+          }
+        ]
+      },
+      "homeTeam": {
+        "forwards": [
+          {
+            "playerId": 8480113,
+            "sweaterNumber": 9,
+            "name": {
+              "default": "A. Iafallo"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "07:10"
+          },
+          {
+            "playerId": 8480014,
+            "sweaterNumber": 13,
+            "name": {
+              "default": "G. Vilardi"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": -2,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 3,
+            "faceoffWinningPctg": 0,
+            "toi": "19:54"
+          },
+          {
+            "playerId": 8476392,
+            "sweaterNumber": 17,
+            "name": {
+              "default": "A. Lowry"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -3,
+            "pim": 0,
+            "hits": 5,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0.777778,
+            "toi": "14:09"
+          },
+          {
+            "playerId": 8481019,
+            "sweaterNumber": 19,
+            "name": {
+              "default": "D. Gustafsson"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 2,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0.714286,
+            "toi": "07:00"
+          },
+          {
+            "playerId": 8478891,
+            "sweaterNumber": 22,
+            "name": {
+              "default": "M. Appleton"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -3,
+            "pim": 0,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0,
+            "toi": "15:37"
+          },
+          {
+            "playerId": 8477497,
+            "sweaterNumber": 23,
+            "name": {
+              "default": "S. Monahan"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 1,
+            "powerPlayGoals": 0,
+            "shots": 1,
+            "faceoffWinningPctg": 0.5,
+            "toi": "20:59"
+          },
+          {
+            "playerId": 8477940,
+            "sweaterNumber": 27,
+            "name": {
+              "default": "N. Ehlers"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": -2,
+            "pim": 0,
+            "hits": 4,
+            "powerPlayGoals": 0,
+            "shots": 2,
+            "faceoffWinningPctg": 0,
+            "toi": "17:12"
+          },
+          {
+            "playerId": 8476460,
+            "sweaterNumber": 55,
+            "name": {
+              "default": "M. Scheifele"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": -2,
+            "pim": 0,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 3,
+            "faceoffWinningPctg": 0.529412,
+            "toi": "22:28"
+          },
+          {
+            "playerId": 8475799,
+            "sweaterNumber": 62,
+            "name": {
+              "default": "N. Niederreiter"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -3,
+            "pim": 0,
+            "hits": 5,
+            "powerPlayGoals": 0,
+            "shots": 5,
+            "faceoffWinningPctg": 0,
+            "toi": "15:09"
+          },
+          {
+            "playerId": 8475726,
+            "sweaterNumber": 73,
+            "name": {
+              "default": "T. Toffoli"
+            },
+            "position": "C",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 3,
+            "faceoffWinningPctg": 0,
+            "toi": "12:23"
+          },
+          {
+            "playerId": 8478398,
+            "sweaterNumber": 81,
+            "name": {
+              "default": "K. Connor"
+            },
+            "position": "L",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 6,
+            "faceoffWinningPctg": 0,
+            "toi": "22:50"
+          },
+          {
+            "playerId": 8482149,
+            "sweaterNumber": 91,
+            "name": {
+              "default": "C. Perfetti"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 3,
+            "faceoffWinningPctg": 0,
+            "toi": "10:56"
+          }
+        ],
+        "defense": [
+          {
+            "playerId": 8476331,
+            "sweaterNumber": 2,
+            "name": {
+              "default": "D. DeMelo",
+              "cs": "D. Demelo",
+              "de": "D. Demelo",
+              "fi": "D. Demelo",
+              "sk": "D. Demelo",
+              "sv": "D. Demelo"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 4,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "20:36"
+          },
+          {
+            "playerId": 8480145,
+            "sweaterNumber": 4,
+            "name": {
+              "default": "N. Pionk",
+              "cs": "N.Pionk",
+              "de": "N.Pionk",
+              "fi": "N.Pionk",
+              "sk": "N.Pionk",
+              "sv": "N.Pionk"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -3,
+            "pim": 2,
+            "hits": 3,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "17:55"
+          },
+          {
+            "playerId": 8476525,
+            "sweaterNumber": 6,
+            "name": {
+              "default": "C. Miller"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 4,
+            "powerPlayGoals": 0,
+            "shots": 3,
+            "faceoffWinningPctg": 0,
+            "toi": "14:42"
+          },
+          {
+            "playerId": 8477504,
+            "sweaterNumber": 44,
+            "name": {
+              "default": "J. Morrissey"
+            },
+            "position": "D",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": -2,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 1,
+            "shots": 5,
+            "faceoffWinningPctg": 0,
+            "toi": "26:30"
+          },
+          {
+            "playerId": 8480049,
+            "sweaterNumber": 54,
+            "name": {
+              "default": "D. Samberg"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -3,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "18:56"
+          },
+          {
+            "playerId": 8477220,
+            "sweaterNumber": 88,
+            "name": {
+              "default": "N. Schmidt"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "powerPlayGoals": 0,
+            "shots": 0,
+            "faceoffWinningPctg": 0,
+            "toi": "16:37"
+          }
+        ],
+        "goalies": [
+          {
+            "playerId": 8476945,
+            "sweaterNumber": 37,
+            "name": {
+              "default": "C. Hellebuyck"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "25/29",
+            "powerPlayShotsAgainst": "2/2",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "27/31",
+            "savePctg": "0.871",
+            "evenStrengthGoalsAgainst": 5,
+            "powerPlayGoalsAgainst": 0,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 5,
+            "toi": "56:57",
+            "starter": true,
+            "decision": "L"
+          },
+          {
+            "playerId": 8476316,
+            "sweaterNumber": 39,
+            "name": {
+              "default": "L. Brossoit"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "0/0",
+            "powerPlayShotsAgainst": "0/0",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "0/0",
+            "evenStrengthGoalsAgainst": 0,
+            "powerPlayGoalsAgainst": 0,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 0,
+            "toi": "00:00",
+            "starter": false
+          }
+        ]
+      }
+    },
+    "summary": {
+      "linescore": {
+        "byPeriod": [
+          {
+            "periodDescriptor": {
+              "number": 1,
+              "periodType": "REG"
+            },
+            "away": 1,
+            "home": 1
+          },
+          {
+            "periodDescriptor": {
+              "number": 2,
+              "periodType": "REG"
+            },
+            "away": 2,
+            "home": 1
+          },
+          {
+            "periodDescriptor": {
+              "number": 3,
+              "periodType": "REG"
+            },
+            "away": 3,
+            "home": 1
+          }
+        ],
+        "totals": {
+          "away": 6,
+          "home": 3
+        }
+      },
+      "shotsByPeriod": [
+        {
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
+          },
+          "away": 13,
+          "home": 7
+        },
+        {
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG"
+          },
+          "away": 11,
+          "home": 18
+        },
+        {
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "away": 8,
+          "home": 11
+        }
+      ],
+      "teamGameStats": [
+        {
+          "category": "sog",
+          "awayValue": 32,
+          "homeValue": 36
+        },
+        {
+          "category": "faceoffWinningPctg",
+          "awayValue": 0.402985,
+          "homeValue": 0.597015
+        },
+        {
+          "category": "powerPlay",
+          "awayValue": "0/1",
+          "homeValue": "1/2"
+        },
+        {
+          "category": "powerPlayPctg",
+          "awayValue": 0,
+          "homeValue": 0.5
+        },
+        {
+          "category": "pim",
+          "awayValue": 4,
+          "homeValue": 2
+        },
+        {
+          "category": "hits",
+          "awayValue": 27,
+          "homeValue": 41
+        },
+        {
+          "category": "blockedShots",
+          "awayValue": 23,
+          "homeValue": 19
+        },
+        {
+          "category": "giveaways",
+          "awayValue": 8,
+          "homeValue": 10
+        },
+        {
+          "category": "takeaways",
+          "awayValue": 2,
+          "homeValue": 5
+        }
+      ],
+      "seasonSeries": [
+        {
+          "id": 2023030161,
+          "season": 20232024,
+          "gameType": 3,
+          "gameDate": "2024-04-21",
+          "startTimeUTC": "2024-04-21T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 21,
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "score": 6
+          },
+          "homeTeam": {
+            "id": 52,
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "score": 7
+          },
+          "clock": {
+            "timeRemaining": "00:00",
+            "secondsRemaining": 0,
+            "running": false,
+            "inIntermission": false
+          },
+          "gameCenterLink": "/gamecenter/col-vs-wpg/2024/04/21/2023030161",
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        },
+        {
+          "id": 2023030162,
+          "season": 20232024,
+          "gameType": 3,
+          "gameDate": "2024-04-23",
+          "startTimeUTC": "2024-04-24T01:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 21,
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "score": 5
+          },
+          "homeTeam": {
+            "id": 52,
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "score": 2
+          },
+          "clock": {
+            "timeRemaining": "00:00",
+            "secondsRemaining": 0,
+            "running": false,
+            "inIntermission": false
+          },
+          "gameCenterLink": "/gamecenter/col-vs-wpg/2024/04/23/2023030162",
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        },
+        {
+          "id": 2023030163,
+          "season": 20232024,
+          "gameType": 3,
+          "gameDate": "2024-04-26",
+          "startTimeUTC": "2024-04-27T02:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-06:00",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 52,
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 21,
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "score": 6
+          },
+          "clock": {
+            "timeRemaining": "00:00",
+            "secondsRemaining": 0,
+            "running": false,
+            "inIntermission": false
+          },
+          "gameCenterLink": "/gamecenter/wpg-vs-col/2024/04/26/2023030163",
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        },
+        {
+          "id": 2023030164,
+          "season": 20232024,
+          "gameType": 3,
+          "gameDate": "2024-04-28",
+          "startTimeUTC": "2024-04-28T18:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-06:00",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 52,
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "score": 1
+          },
+          "homeTeam": {
+            "id": 21,
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "score": 5
+          },
+          "clock": {
+            "timeRemaining": "00:00",
+            "secondsRemaining": 0,
+            "running": false,
+            "inIntermission": false
+          },
+          "gameCenterLink": "/gamecenter/wpg-vs-col/2024/04/28/2023030164",
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        },
+        {
+          "id": 2023030165,
+          "season": 20232024,
+          "gameType": 3,
+          "gameDate": "2024-04-30",
+          "startTimeUTC": "2024-05-01T01:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 21,
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "score": 6
+          },
+          "homeTeam": {
+            "id": 52,
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "score": 3
+          },
+          "clock": {
+            "timeRemaining": "00:00",
+            "secondsRemaining": 0,
+            "running": false,
+            "inIntermission": false
+          },
+          "gameCenterLink": "/gamecenter/col-vs-wpg/2024/04/30/2023030165",
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        }
+      ],
+      "seasonSeriesWins": {
+        "awayTeamWins": 4,
+        "homeTeamWins": 1
+      },
+      "gameReports": {
+        "gameSummary": "https://www.nhl.com/scores/htmlreports/20232024/GS030165.HTM",
+        "eventSummary": "https://www.nhl.com/scores/htmlreports/20232024/ES030165.HTM",
+        "playByPlay": "https://www.nhl.com/scores/htmlreports/20232024/PL030165.HTM",
+        "faceoffSummary": "https://www.nhl.com/scores/htmlreports/20232024/FS030165.HTM",
+        "faceoffComparison": "https://www.nhl.com/scores/htmlreports/20232024/FC030165.HTM",
+        "rosters": "https://www.nhl.com/scores/htmlreports/20232024/RO030165.HTM",
+        "shotSummary": "https://www.nhl.com/scores/htmlreports/20232024/SS030165.HTM",
+        "shiftChart": "https://www.nhl.com/stats/shiftcharts?id=2023030165",
+        "toiAway": "https://www.nhl.com/scores/htmlreports/20232024/TV030165.HTM",
+        "toiHome": "https://www.nhl.com/scores/htmlreports/20232024/TH030165.HTM"
+      },
+      "gameInfo": {
+        "referees": [
+          {
+            "default": "Kelly Sutherland"
+          },
+          {
+            "default": "Pierre Lambert"
+          }
+        ],
+        "linesmen": [
+          {
+            "default": "Trent Knorr"
+          },
+          {
+            "default": "Mark Shewchyk"
+          }
+        ],
+        "awayTeam": {
+          "headCoach": {
+            "default": "Jared Bednar"
+          },
+          "scratches": [
+            {
+              "id": 8475780,
+              "firstName": {
+                "default": "Chris"
+              },
+              "lastName": {
+                "default": "Wagner"
+              }
+            },
+            {
+              "id": 8476779,
+              "firstName": {
+                "default": "Brad"
+              },
+              "lastName": {
+                "default": "Hunt"
+              }
+            },
+            {
+              "id": 8477494,
+              "firstName": {
+                "default": "Jonathan"
+              },
+              "lastName": {
+                "default": "Drouin"
+              }
+            },
+            {
+              "id": 8478028,
+              "firstName": {
+                "default": "Fredrik"
+              },
+              "lastName": {
+                "default": "Olofsson"
+              }
+            },
+            {
+              "id": 8478452,
+              "firstName": {
+                "default": "Caleb"
+              },
+              "lastName": {
+                "default": "Jones"
+              }
+            },
+            {
+              "id": 8479362,
+              "firstName": {
+                "default": "Riley"
+              },
+              "lastName": {
+                "default": "Tufte"
+              }
+            },
+            {
+              "id": 8479387,
+              "firstName": {
+                "default": "Keaton"
+              },
+              "lastName": {
+                "default": "Middleton"
+              }
+            },
+            {
+              "id": 8480244,
+              "firstName": {
+                "default": "Arvid"
+              },
+              "lastName": {
+                "default": "Holm"
+              }
+            },
+            {
+              "id": 8481031,
+              "firstName": {
+                "default": "Ivan"
+              },
+              "lastName": {
+                "default": "Prosvetov"
+              }
+            },
+            {
+              "id": 8481529,
+              "firstName": {
+                "default": "Trent"
+              },
+              "lastName": {
+                "default": "Miner"
+              }
+            },
+            {
+              "id": 8481641,
+              "firstName": {
+                "default": "Joel"
+              },
+              "lastName": {
+                "default": "Kiviranta"
+              }
+            },
+            {
+              "id": 8482072,
+              "firstName": {
+                "default": "Jack"
+              },
+              "lastName": {
+                "default": "Ahcan"
+              }
+            },
+            {
+              "id": 8482147,
+              "firstName": {
+                "default": "Jean-Luc"
+              },
+              "lastName": {
+                "default": "Foudy"
+              }
+            },
+            {
+              "id": 8484258,
+              "firstName": {
+                "default": "Sam"
+              },
+              "lastName": {
+                "default": "Malinski"
+              }
+            }
+          ]
+        },
+        "homeTeam": {
+          "headCoach": {
+            "default": "Rick Bowness"
+          },
+          "scratches": [
+            {
+              "id": 8475455,
+              "firstName": {
+                "default": "Brenden"
+              },
+              "lastName": {
+                "default": "Dillon"
+              }
+            },
+            {
+              "id": 8476480,
+              "firstName": {
+                "default": "Vladislav"
+              },
+              "lastName": {
+                "default": "Namestnikov",
+                "cs": "Naměstnikov"
+              }
+            },
+            {
+              "id": 8479378,
+              "firstName": {
+                "default": "Logan"
+              },
+              "lastName": {
+                "default": "Stanley"
+              }
+            },
+            {
+              "id": 8479536,
+              "firstName": {
+                "default": "Axel"
+              },
+              "lastName": {
+                "default": "Jonsson-Fjallby",
+                "cs": "Jonsson-Fjällby",
+                "sk": "Jonsson-Fjällby"
+              }
+            },
+            {
+              "id": 8480289,
+              "firstName": {
+                "default": "Morgan"
+              },
+              "lastName": {
+                "default": "Barron"
+              }
+            },
+            {
+              "id": 8480845,
+              "firstName": {
+                "default": "Rasmus"
+              },
+              "lastName": {
+                "default": "Kupari"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "gameOutcome": {
+      "lastPeriodType": "REG"
+    },
+    "gameVideo": {
+      "threeMinRecap": 6352096998112,
+      "threeMinRecapFr": 6352096521112,
+      "condensedGame": 6352096519112
+    }
+  }
