@@ -7,7 +7,7 @@ styles.replaceSync(`
         padding: 0;
     }
     .date-nav li {
-        flex: 1 1 25%;
+        flex: 1 1 15%;
         list-style-type: none;
         margin: 1rem 1.5rem 0.5rem;
         padding: 0 1rem;
@@ -19,7 +19,7 @@ styles.replaceSync(`
     .date_nav a:hover {
         text-decoration: underline;
     }
-    .previous {
+    .previous, .next-game {
         text-align: right;
     }
     .current {
@@ -43,6 +43,8 @@ export class DateNav extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.baseUrl = 'https://api-web.nhle.com/v1/schedule';
+        this.nextStartDate = '';
+        this.previousStartDate = '';
         this.season = '';
         this.seasonMax = '';
         this.seasonMin = '';
@@ -52,6 +54,7 @@ export class DateNav extends HTMLElement {
         this.totalGames = 0;
         this.yesterday = '';
         this.seasons = [
+            20262027,
             20252026,
             20242025,
             20232024,
@@ -64,14 +67,16 @@ export class DateNav extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['todayDate'];
+        return ['todayDate', 'nextStartDate', 'previousStartDate'];
     }
 
     async connectedCallback() {
         this.shadowRoot.adoptedStyleSheets = [styles]
         // await this.setScheduleBounds(this.seasons[0]);
         this.todayDate = this.getAttribute("todayDate");
-        this.today = this.todayDate !== '' ? dayjs(this.todayDate) : new dayjs()
+        this.today = this.todayDate !== '' ? dayjs(this.todayDate) : new dayjs();
+        this.nextStartDate = this.getAttribute("nextStartDate");
+        this.previousStartDate = this.getAttribute("previousStartDate");
         
         await this.updateDateData(this.today);
         await this.render();
@@ -118,6 +123,9 @@ export class DateNav extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <nav class="date-nav">
             <ul>
+                <li class="last-game">
+                    <a href="${this.baseUrl}/${this.previousStartDate}">Previous Game</a>
+                </li>
                 <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     &laquo; Yesterday</a>
                 </li>
@@ -126,6 +134,9 @@ export class DateNav extends HTMLElement {
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     Tomorrow &raquo;
                 </li>
+                <li class="next-game">
+                    <a href="${this.baseUrl}/${this.nextStartDate}">Next Game</a>
+                <li>
             </ul>
         </nav>
         `
@@ -135,6 +146,9 @@ export class DateNav extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <nav class="date-nav">
             <ul>
+                <li class="last-game">
+                    <a href="${this.baseUrl}/${this.previousStartDate}">Previous Game</a>
+                </li>
                 <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     <a href="${this.baseUrl}/${this.yesterday}">&laquo; ${this.yesterday}</a>
                 </li>
@@ -144,6 +158,9 @@ export class DateNav extends HTMLElement {
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     <a href="${this.baseUrl}/=${this.tomorrow}">${this.tomorrow} &raquo;</a>
                 </li>
+                <li class="next-game">
+                    <a href="${this.baseUrl}/${this.nextStartDate}">Next Game</a>
+                <li>
             </ul>
         </nav>
         `
