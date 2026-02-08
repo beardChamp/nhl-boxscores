@@ -1,6 +1,6 @@
 # nhl-boxscores
 
-Learning to build NHL boxscores with web components with as few libraries as possible and without any build processes.
+Learning to build NHL boxscores with web components, as few libraries as possible, and without any build processes.
 
 ## New NHL stats API
 The scoreboard is updated to use the 2023 version of the NHL's public stats API. Some community based documentation on this and prior versions of the API can be found at [Drew Hynes' nhlapi repo](https://gitlab.com/dword4/nhlapi/-/blob/master/new-api.md).
