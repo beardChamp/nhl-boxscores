@@ -49,11 +49,18 @@ export class ScoreBase extends HTMLElement {
     this.games = await json.gameWeek.find((date) => date.date === dateObject.format('YYYY-MM-DD'));
     this.totalGames = await this.games.games.length;
     this.today = JSON.stringify(dateObject);
+    this.nextStartDate = json.nextStartDate;
+    this.previousStartDate = json.previousStartDate;
   }
 
   buildTeamRecord(abbr) {
-    const teamObject = this.standings.filter((team) => team.teamAbbrev.default === abbr);
-    return `(${teamObject[0].wins}-${teamObject[0].losses}-${teamObject[0].otLosses})`
+    // handling empty standings
+    if (this.standings.length > 0) {
+      const teamObject = this.standings.filter((team) => team.teamAbbrev.default === abbr);
+      return `(${teamObject[0].wins}-${teamObject[0].losses}-${teamObject[0].otLosses})`
+    } else {
+      return `0-0-0`
+    }
   }
 
   async updateScheduleData(dateObject) {
@@ -73,7 +80,7 @@ export class ScoreBase extends HTMLElement {
 
   async renderData() {
     this.shadowRoot.innerHTML = `
-    <date-nav todayDate=${this.today}></date-nav>
+    <date-nav todayDate=${this.today} nextStartDate=${this.nextStartDate} previousStartDate=${this.previousStartDate}></date-nav>
     <ul>
       ${ this.totalGames > 0
             ? this.games.games.map((game) => {

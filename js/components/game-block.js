@@ -144,10 +144,10 @@ export class GameBlock extends HTMLElement {
             const homeScore = home.score ? home.score : 0;
             const homeScorers = homePlayers.length > 0 ? homePlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
 
-            const linescoreData = this.data.summary ? this.data.summary.linescore : {};
-            
+            const linescoreData = this.data.summary && Object.keys(this.data.summary).length > 0 ? this.data.summary.linescore : {};
             // going to need to check length and loop through periods, need home and away seperately
             const periodsData = linescoreData.byPeriod ? linescoreData.byPeriod : [];
+            
             this.awayTeamPeriods = JSON.stringify(periodsData.map((period) => period.away));
             this.homeTeamPeriods = JSON.stringify(periodsData.map((period) => period.home));;
             

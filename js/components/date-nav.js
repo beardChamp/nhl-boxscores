@@ -134,9 +134,6 @@ export class DateNav extends HTMLElement {
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     Tomorrow &raquo;
                 </li>
-                <li class="next-game">
-                    <a href="${this.baseUrl}/${this.nextStartDate}">Next Game</a>
-                <li>
             </ul>
         </nav>
         `
@@ -146,9 +143,6 @@ export class DateNav extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <nav class="date-nav">
             <ul>
-                <li class="last-game">
-                    <a href="${this.baseUrl}/${this.previousStartDate}">Previous Game</a>
-                </li>
                 <li class="previous ${this.yesterday === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     <a href="${this.baseUrl}/${this.yesterday}">&laquo; ${this.yesterday}</a>
                 </li>
@@ -158,9 +152,6 @@ export class DateNav extends HTMLElement {
                 <li class="next ${this.tomorrow === new dayjs().format('YYYY-MM-DD') ? 'today' : ''}">
                     <a href="${this.baseUrl}/=${this.tomorrow}">${this.tomorrow} &raquo;</a>
                 </li>
-                <li class="next-game">
-                    <a href="${this.baseUrl}/${this.nextStartDate}">Next Game</a>
-                <li>
             </ul>
         </nav>
         `
