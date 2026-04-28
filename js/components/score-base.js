@@ -53,12 +53,21 @@ export class ScoreBase extends HTMLElement {
     this.previousStartDate = json.previousStartDate;
   }
 
-  buildTeamRecord(abbr) {
-    // handling empty standings
+  buildTeamRecord(abbr, seriesStatus) {
+    // handle regular season standings
     if (this.standings.length > 0) {
       const teamObject = this.standings.filter((team) => team.teamAbbrev.default === abbr);
       return `(${teamObject[0].wins}-${teamObject[0].losses}-${teamObject[0].otLosses})`
-    } else {
+    }
+    // handle playoff series standings
+    else if (this.standings.length === 0 && seriesStatus !== undefined) {
+      const isTopSeed = seriesStatus.topSeedTeamAbbrev === abbr;
+      const seedWins = isTopSeed ? seriesStatus.topSeedWins : seriesStatus.bottomSeedWins;
+      return `${seriesStatus.seriesTitle}, Game ${seriesStatus.gameNumberOfSeries}: ${seedWins}`;
+    } 
+    // handle empty standings
+    else {
+      // console.log('abbr, this.games.games[0].seriesStatus', abbr, this.games.games[0].seriesStatus);
       return `0-0-0`
     }
   }
@@ -86,7 +95,7 @@ export class ScoreBase extends HTMLElement {
             ? this.games.games.map((game) => {
                 return `
                 <li>
-                    <game-block feed="${game.id}" homeRecord="${this.buildTeamRecord(game.homeTeam.abbrev)}" awayRecord="${this.buildTeamRecord(game.awayTeam.abbrev)}"></game-block>
+                    <game-block feed="${game.id}" homeRecord="${this.buildTeamRecord(game.homeTeam.abbrev, game.seriesStatus)}" awayRecord="${this.buildTeamRecord(game.awayTeam.abbrev, game.seriesStatus)}"></game-block>
                 </li>
                 `;
             }).join('')
