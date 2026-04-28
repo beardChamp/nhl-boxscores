@@ -132,7 +132,6 @@ export class GameBlock extends HTMLElement {
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
-        // need to handle zero or undefined data states (mostly to supress console errors)
         if (this.data && this.data.id) {
             const away = this.data.awayTeam;
             const awayPlayers = this.data.playerByGameStats ? [...this.data.playerByGameStats.awayTeam.forwards, ...this.data.playerByGameStats.awayTeam.defense] : [];
@@ -143,13 +142,6 @@ export class GameBlock extends HTMLElement {
             const homePlayers = this.data.playerByGameStats ? [...this.data.playerByGameStats.homeTeam.forwards, ...this.data.playerByGameStats.homeTeam.defense] : [];
             const homeScore = home.score ? home.score : 0;
             const homeScorers = homePlayers.length > 0 ? homePlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
-
-            const linescoreData = this.data.summary && Object.keys(this.data.summary).length > 0 ? this.data.summary.linescore : {};
-            // going to need to check length and loop through periods, need home and away seperately
-            const periodsData = linescoreData.byPeriod ? linescoreData.byPeriod : [];
-            
-            this.awayTeamPeriods = JSON.stringify(periodsData.map((period) => period.away));
-            this.homeTeamPeriods = JSON.stringify(periodsData.map((period) => period.home));;
             
             const dateString = dayjs(this.data.startTimeUTC, 'America/New_York').format('h:mm A');
             const dateObj = dayjs(this.data.startTimeUTC);
@@ -181,7 +173,7 @@ export class GameBlock extends HTMLElement {
                 </li>
                 <li class="game-data">
                     <dl class="time-remaining ${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
-                        <dt>${now.diff(dateObj) > 0  && this.data.clock.running ? this.data.period : ''}</dt>
+                        <dt>${now.diff(dateObj) > 0  && this.data.clock.running ? 'Period ' + this.data.periodDescriptor.number : ''}</dt>
                         <dd>${now.diff(dateObj) > 0  ? this.data.clock.timeRemaining : dateString}</dd>
                     </dl>
                 </li> 
