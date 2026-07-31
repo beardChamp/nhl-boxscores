@@ -14,7 +14,7 @@ First, you'll need to run [local-cors-anywhere](https://github.com/dkaoster/loca
 From there, I use [http-server](https://github.com/http-party/http-server) to serve the files. It's a great package to serve the contents of any directory. It's default port is also `8080`, so I use `npx http-server -p 8081`.
 
 ## Potential future updates
-- ~~ The current date navigation isn't ideal for longer breaks (like between seasons or during the Olympic break). ~~
+- ~~The current date navigation isn't ideal for longer breaks (like between seasons or during the Olympic break). ~~
 - ~~I'd like to update the date display and manipulation with the Javascript Temporal API to remove Day.js~~
 - I'd love to have the period-breakdown component working again after the data was restructured.
 - Capture history back and forward button events to allow back/forward movement with history changes
