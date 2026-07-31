@@ -56,10 +56,6 @@
                 min-width: 12.5rem;
             }
         </style>
-        <script src="js/dayjs.min.js"></script>
-        <script src="js/utc.js"></script>
-        <script src="js/timezone.js"></script>
-        <script src="js/isbetween.js"></script>
     </head>
     <body>
         <header>
@@ -68,15 +64,9 @@
         <main class="data-container">
             <score-base></score-base>
         </main>
-        <script>
-            dayjs.extend(window.dayjs_plugin_utc)
-            dayjs.extend(window.dayjs_plugin_timezone)
-            dayjs.extend(window.dayjs_plugin_isBetween)
-        </script>
         <script type="module">
             import './js/components/score-base.js';
             import './js/components/game-block.js';
-            import './js/components/period-breakdown.js';
             import './js/components/date-nav.js';
         </script>
     </body>

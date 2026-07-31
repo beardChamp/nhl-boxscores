@@ -1,5 +1,3 @@
-import './period-breakdown.js';
-
 const styles = new CSSStyleSheet()
 styles.replaceSync(`
     ul {
@@ -92,6 +90,11 @@ styles.replaceSync(`
         display: inline-block;
         width: 15%;
     }
+    .skeleton {
+        li, details {
+        color: #666;
+        }
+    }
 `)
 
 export class GameBlock extends HTMLElement {
@@ -126,9 +129,44 @@ export class GameBlock extends HTMLElement {
     const json = await response.json();
     this.data = await json;
     this.render();
+    this.postRender();
   }
 
   render() {
+    this.shadowRoot.innerHTML = `
+        <ul class="boxscore skeleton">
+            <li class="team-data">
+                <dl class="away">
+                    <dt>
+                        <h3 class="team-name">&#9702;&#9702;&#9702;</h3>
+                        <span class="record">(&#9702;&#9702;-&#9702;&#9702;-&#9702;&#9702;)</span>
+                    </dt>
+                    <dd>0</dd>
+                </dl>
+                <dl class="home">
+                    <dt>
+                        <h3 class="team-name">&#9702;&#9702;&#9702;</h3>
+                        <span class="record">(&#9702;&#9702;-&#9702;&#9702;-&#9702;&#9702;)</span>
+                    </dt>
+                    <dd>0</dd>
+                </dl>
+            </li>
+            <li class="game-data">
+                <dl class="time-remaining">
+                    <dt></dt>
+                    <dd>00:00</dd>
+                </dl>
+            </li> 
+            <details class="goal-scorers">
+                <summary>Scoring Details</summary>
+                <section class="scoring-block">
+                </section>
+            </details>
+        </ul>
+    `
+  }
+
+  postRender() {
     if (this.loading) {
       this.shadowRoot.innerHTML = `Loading...`;
     } else {
@@ -142,10 +180,10 @@ export class GameBlock extends HTMLElement {
             const homePlayers = this.data.playerByGameStats ? [...this.data.playerByGameStats.homeTeam.forwards, ...this.data.playerByGameStats.homeTeam.defense] : [];
             const homeScore = home.score ? home.score : 0;
             const homeScorers = homePlayers.length > 0 ? homePlayers.filter((player) => player.goals > 0 || player.assists > 0) : [];
-            
-            const dateString = dayjs(this.data.startTimeUTC, 'America/New_York').format('h:mm A');
-            const dateObj = dayjs(this.data.startTimeUTC);
-            const now = new dayjs();
+
+            const dateString = Temporal.Instant.from(this.data.startTimeUTC).toZonedDateTimeISO('America/New_York');
+            const dateObj = Temporal.Instant.from(this.data.startTimeUTC).toZonedDateTimeISO('America/New_York');
+            const now = Temporal.Now.plainDateISO();
 
             this.shadowRoot.innerHTML = `
             <ul class="boxscore">
@@ -155,9 +193,6 @@ export class GameBlock extends HTMLElement {
                             <h3 class="team-name">${away.abbrev}</h3>
                             <span class="record">${this.awayRecord}</span>
                         </dt>
-                        <dd>
-                            <period-breakdown periods=${this.awayTeamPeriods} team="away"></period-breakdown>
-                        </dd>
                         <dd>${awayScore}</dd>
                     </dl>
                     <dl class="home">
@@ -165,16 +200,13 @@ export class GameBlock extends HTMLElement {
                             <h3 class="team-name">${home.abbrev}</h3>
                             <span class="record">${this.homeRecord}</span>
                         </dt>
-                        <dd>
-                            <period-breakdown periods=${this.homeTeamPeriods} team="home"></period-breakdown>
-                        </dd>
                         <dd>${homeScore}</dd>
                     </dl>
                 </li>
                 <li class="game-data">
                     <dl class="time-remaining ${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
-                        <dt>${now.diff(dateObj) > 0  && this.data.clock.running ? 'Period ' + this.data.periodDescriptor.number : ''}</dt>
-                        <dd>${now.diff(dateObj) > 0  ? this.data.clock.timeRemaining : dateString}</dd>
+                        <dt>${Temporal.PlainDateTime.compare(dateObj, now) > 0  && this.data.clock.running ? 'Period ' + this.data.periodDescriptor.number : ''}</dt>
+                        <dd>${Temporal.PlainDateTime.compare(dateObj, now) > 0  ? this.data.clock.timeRemaining : Temporal.PlainTime.from(dateString).toString()}</dd>
                     </dl>
                 </li> 
                 <details class="goal-scorers">

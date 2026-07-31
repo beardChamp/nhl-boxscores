@@ -27,28 +27,28 @@ export class ScoreBase extends HTMLElement {
     this.copyright = '';
     this.games = {};
     this.today = {};
-    this.date = new dayjs();
+    this.date = window.location.search && window.location.search.includes('date') ? Temporal.PlainDate.from(window.location.search.split('=')[1]) : Temporal.Now.plainDateISO();
   }
 
-  async connectedCallback() {
+  async connectedCallback() { 
     await this.fetchStandings();
     await this.updateScheduleData(this.date);
     this.shadowRoot.adoptedStyleSheets = [styles];
   }
 
   async fetchStandings(dateObject) {
-    dateObject = dateObject ? dayjs(dateObject).format('YYYY-MM-DD') : this.date.format('YYYY-MM-DD');
-    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/standings/${dateObject}`);
+    dateObject = dateObject ? dateObject : this.date;
+    const response = await fetch(`http://localhost:8080/https://api-web.nhle.com/v1/standings/${dateObject.toString()}`);
     const json = await response.json();
     this.standings = await json.standings;
   }
 
   async updateGameData(dateObject) {
-    const response = await fetch(`${this.baseUrl}/${dateObject.format('YYYY-MM-DD')}`);
+    const response = await fetch(`${this.baseUrl}/${dateObject}`);
     const json = await response.json();
-    this.games = await json.gameWeek.find((date) => date.date === dateObject.format('YYYY-MM-DD'));
-    this.totalGames = await this.games.games.length;
-    this.today = JSON.stringify(dateObject);
+    this.games = await json.gameWeek.find((day) => {const temporalDate = Temporal.PlainDate.from(day.date); return Temporal.PlainDate.compare(day.date, dateObject)});
+    this.totalGames = this.games.games.length;
+    this.today = dateObject;
     this.nextStartDate = json.nextStartDate;
     this.previousStartDate = json.previousStartDate;
   }
@@ -67,7 +67,6 @@ export class ScoreBase extends HTMLElement {
     } 
     // handle empty standings
     else {
-      // console.log('abbr, this.games.games[0].seriesStatus', abbr, this.games.games[0].seriesStatus);
       return `0-0-0`
     }
   }
@@ -89,7 +88,7 @@ export class ScoreBase extends HTMLElement {
 
   async renderData() {
     this.shadowRoot.innerHTML = `
-    <date-nav todayDate=${this.today} nextStartDate=${this.nextStartDate} previousStartDate=${this.previousStartDate}></date-nav>
+    <date-nav todayDate=${JSON.stringify(this.today)} nextStartDate=${this.nextStartDate} previousStartDate=${this.previousStartDate}></date-nav>
     <ul>
       ${ this.totalGames > 0
             ? this.games.games.map((game) => {
@@ -112,7 +111,7 @@ export class ScoreBase extends HTMLElement {
   async postRender() {
     const shadow = this.shadowRoot.querySelector('date-nav');
     shadow.addEventListener("dateUpdated", (e) => {
-        this.updateScheduleData(e.detail);
+        this.updateScheduleData(Temporal.PlainDate.from(e.detail));
     });
   }
 }
