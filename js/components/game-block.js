@@ -185,6 +185,7 @@ export class GameBlock extends HTMLElement {
             const dateObj = Temporal.Instant.from(this.data.startTimeUTC).toZonedDateTimeISO('America/New_York');
             const now = Temporal.Now.plainDateISO();
 
+
             this.shadowRoot.innerHTML = `
             <ul class="boxscore">
                 <li class="team-data">
@@ -205,8 +206,8 @@ export class GameBlock extends HTMLElement {
                 </li>
                 <li class="game-data">
                     <dl class="time-remaining ${this.data.gameState === 'LIVE' ? 'show' : 'hide'}">
-                        <dt>${Temporal.PlainDateTime.compare(dateObj, now) > 0  && this.data.clock.running ? 'Period ' + this.data.periodDescriptor.number : ''}</dt>
-                        <dd>${Temporal.PlainDateTime.compare(dateObj, now) > 0  ? this.data.clock.timeRemaining : Temporal.PlainTime.from(dateString).toString()}</dd>
+                        <dt>${Temporal.PlainDateTime.compare(dateObj, now) > 0  && this.data.clock && this.data.clock.running ? 'Period ' + this.data.periodDescriptor.number : ''}</dt>
+                        <dd>${Temporal.PlainDateTime.compare(dateObj, now) > 0  && this.data.clock ? this.data.clock.timeRemaining : Temporal.PlainTime.from(dateString).toString()}</dd>
                     </dl>
                 </li> 
                 <details class="goal-scorers">
