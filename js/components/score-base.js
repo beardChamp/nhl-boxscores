@@ -28,6 +28,9 @@ export class ScoreBase extends HTMLElement {
     this.games = {};
     this.today = {};
     this.date = window.location.search && window.location.search.includes('date') ? Temporal.PlainDate.from(window.location.search.split('=')[1]) : Temporal.Now.plainDateISO();
+    window.addEventListener("popstate", (event) => { 
+        this.updateScheduleData(event.state);
+    });
   }
 
   async connectedCallback() { 
@@ -91,16 +94,16 @@ export class ScoreBase extends HTMLElement {
     <date-nav todayDate=${JSON.stringify(this.today)} nextStartDate=${this.nextStartDate} previousStartDate=${this.previousStartDate}></date-nav>
     <ul>
       ${ this.totalGames > 0
-            ? this.games.games.map((game) => {
-                return `
-                <li>
-                    <game-block feed="${game.id}" homeRecord="${this.buildTeamRecord(game.homeTeam.abbrev, game.seriesStatus)}" awayRecord="${this.buildTeamRecord(game.awayTeam.abbrev, game.seriesStatus)}"></game-block>
-                </li>
-                `;
-            }).join('')
-            : `<li>
-                <p>There are no games available for today.</p>
-            </li>`
+          ? this.games.games.map((game) => {
+              return `
+              <li>
+                  <game-block feed="${game.id}" homeRecord="${this.buildTeamRecord(game.homeTeam.abbrev, game.seriesStatus)}" awayRecord="${this.buildTeamRecord(game.awayTeam.abbrev, game.seriesStatus)}"></game-block>
+              </li>
+              `;
+          }).join('')
+          : `<li>
+              <p>There are no games available for today.</p>
+          </li>`
         }
     </ul>
     <footer>

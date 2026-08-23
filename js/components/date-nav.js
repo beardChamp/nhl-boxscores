@@ -64,14 +64,14 @@ export class DateNav extends HTMLElement {
         this.dispatchEvent(new CustomEvent("dateUpdated" , {
             detail: event.target.value
         }))
-        window.history.pushState( { title: `NHL Boxscores: ${event.target.value}` }, `date_${event.target.value}`, `?date=${event.target.value}` );
+        window.history.pushState( event.target.value, `date_${event.target.value}`, `?date=${event.target.value}` );
     }
 
     async dateNavigation(event) {
         this.dispatchEvent(new CustomEvent("dateUpdated" , {
             detail: event.target.value
         }))
-        window.history.pushState( { title: `NHL Boxscores: ${event.target.value}` }, `date_${event.target.value}`, `?date=${event.target.value}` );
+        window.history.pushState( event.target.value, `date_${event.target.value}`, `?date=${event.target.value}` );
     }
 
     async render() {
